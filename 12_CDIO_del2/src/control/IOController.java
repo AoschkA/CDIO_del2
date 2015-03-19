@@ -21,6 +21,7 @@ public class IOController {
 		System.out.println("Indtast eventuel portnummer som 1. argument");
 		System.out.println("på kommando linien for andet portnr");
 		sock = listener.accept();
+		vaegtdata.setConnected_host(sock.getInetAddress());
 		instream = new BufferedReader(new InputStreamReader(sock.getInputStream()));
 		outstream = new DataOutputStream(sock.getOutputStream());
 		try{
