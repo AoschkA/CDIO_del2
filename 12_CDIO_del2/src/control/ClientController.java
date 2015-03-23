@@ -1,22 +1,22 @@
 package control;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class ClientController {
-	private TUI TUI = new TUI();
 	private WeightData vaegtdata;
+	TUI tui;
 
 	public ClientController(WeightData vaegtdata) {
 		this.vaegtdata = vaegtdata;
+		tui = new TUI(vaegtdata);
 	}
 
 	private String getStringInput() {
 		String input = "";
 		try {
-			input = TUI.getResponse();
+			input = tui.getResponse();
 		} catch (IOException e) {
-			TUI.printMessage("No input detected");
+			tui.printMessage("No input detected");
 			return getStringInput();
 		}
 		return input;
@@ -29,7 +29,7 @@ public class ClientController {
 		try {
 			output = Integer.parseInt(input);
 		} catch (NumberFormatException e) {
-			TUI.printMessage("Couldn't recognize the input");
+			tui.printMessage("Couldn't recognize the input");
 			return getIntInput();
 		}
 
@@ -37,22 +37,22 @@ public class ClientController {
 	}
 
 	public boolean runMenu() {
-		TUI.print_Menu(vaegtdata);
+		tui.print_Menu(vaegtdata);
 		String answer = getStringInput();
 			if (answer.equals("Q")) {
 				// terminate
-				TUI.printMessage("Du har afsluttet programmet");
+				tui.printMessage("Du har afsluttet programmet");
 				return true;
 			} else if (answer.equals("T")) {
 				vaegtdata.taraWeight();
 				return false;
 			} else if (answer.equals("B")) {
-				TUI.printMessage("Indtast brutto vægt:");
+				tui.printMessage("Indtast brutto vægt:");
 				vaegtdata.setBrutto(getIntInput());
 				return false;
 			}
 			else {
-				TUI.printMessage("Not a known input, please try again:");
+				tui.printMessage("Not a known input, please try again:");
 				return runMenu();
 			}
 		}

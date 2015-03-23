@@ -1,19 +1,29 @@
 package run;
 import control.IOController;
+import control.WeightData;
 
 public class launch {
+	static WeightData vaegtdata = new WeightData();
+	static IOController io;
+	
 	public static void main(String args[]){
-		
-		if(args.length == 1) {
-			IOController io = new IOController(Integer.parseInt(args[0]));
+		switch(args.length){
+		case 0:
+			io = new IOController(vaegtdata);
 			io.start();
-		}
-		if(args.length == 2) {
-			IOController io = new IOController(Integer.parseInt(args[0]),Integer.parseInt(args[1]));
+			break;
+		case 1:
+			io = new IOController(Integer.parseInt(args[0]), vaegtdata);
 			io.start();
-		}else{
-			IOController io = new IOController();
+			break;
+		case 2:
+			io = new IOController(Integer.parseInt(args[0]),Integer.parseInt(args[1]), vaegtdata);
 			io.start();
+			break;
+		default:
+			io = new IOController(vaegtdata);
+			io.start();
+			break;	
 		}
 	}
 }

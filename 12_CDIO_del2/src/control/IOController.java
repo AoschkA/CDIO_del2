@@ -21,10 +21,12 @@ public class IOController implements Runnable {
 	private static Socket sock;
 	private static BufferedReader instream;
 	private static DataOutputStream outstream;
-	WeightData vaegtdata = new WeightData();
+	WeightData vaegtdata;
 
-	public IOController() {
+	// Jar fil kørt uden argumenter
+	public IOController(WeightData vaegtdata) {
 		try {
+			this.vaegtdata = vaegtdata;
 			listener = new ServerSocket(portdst);
 			sock = listener.accept();
 			instream = new BufferedReader(new InputStreamReader(
@@ -42,9 +44,10 @@ public class IOController implements Runnable {
 		}
 
 	}
-
-	public IOController(int port) {
+	// Jar fil kørt med 1 argument (port)
+	public IOController(int port, WeightData vaegtdata) {
 		try {
+			this.vaegtdata = vaegtdata;
 			portdst = port;
 			listener = new ServerSocket(portdst);
 			sock = listener.accept();
@@ -63,9 +66,10 @@ public class IOController implements Runnable {
 		}
 
 	}
-
-	public IOController(int port, int medmenu) {
+	// Jar fil kørt med 2 argumenter (port og menu)
+	public IOController(int port, int medmenu, WeightData vaegtdata) {
 		try {
+			this.vaegtdata = vaegtdata;
 			menutrue = medmenu;
 			portdst = port;
 			listener = new ServerSocket(portdst);
@@ -91,10 +95,6 @@ public class IOController implements Runnable {
 	}
 
 	public void user_Input() throws IOException {
-
-		// System.out.println("Indtast eventuel portnummer som 1. argument");
-		// System.out.println("p� kommando linien for andet portnr");
-
 		try {
 
 			while (!(inline = instream.readLine().toUpperCase()).isEmpty()) {
