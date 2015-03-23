@@ -1,10 +1,14 @@
 package control;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 public class TUI {
 	WeightData vaegtdata = new WeightData();
+	private BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
 	
 	public TUI() throws UnknownHostException {
 		vaegtdata.setInstruktionsdisplay1("Standard Display 1");
@@ -13,13 +17,21 @@ public class TUI {
 		vaegtdata.setConnected_host(InetAddress.getByName("127.0.0.1"));
 		vaegtdata.setInstruktionsdisplay2("Standard Display 2");
 	}
+	
+	public void printMessage(String message){
+		System.out.println(message);
+	}
+	public String getResponse() throws IOException{
+		return inFromUser.readLine();
+	}
+	
 	public void print_Menu(WeightData vaegtdata) {
 		this.vaegtdata = vaegtdata;
 		System.out.println(" ");
 		System.out.println("*************************************************");
 		System.out.println("Netto: " + (this.vaegtdata.getNetto())+ " kg" );
 		System.out.println("Instruktionsdisplay: " + this.vaegtdata.getInstruktionsdisplay1());
-		System.out.println("Sekundærtdisplay: " + this.vaegtdata.getInstruktionsdisplay2());
+		System.out.println("Sekundï¿½rtdisplay: " + this.vaegtdata.getInstruktionsdisplay2());
 		if (vaegtdata.getRm20_kommando()!=""){
 			System.out.println("Fra Bruger: " + this.vaegtdata.getRm20_kommando());
 		}
@@ -31,16 +43,16 @@ public class TUI {
 		System.out.println("Brutto: " + (this.vaegtdata.getBrutto())+ " kg" );
 		System.out.println("Streng modtaget: "+ this.vaegtdata.getStreng_fra_bruger());
 		System.out.println(" ");
-		System.out.println("Denne vægt simulator lytter på ordrene ");
+		System.out.println("Denne vï¿½gt simulator lytter pï¿½ ordrene ");
 		System.out.println("D, DN, S, T, B, Q ");
-		System.out.println("på kommunikationsporten. ");
+		System.out.println("pï¿½ kommunikationsporten. ");
 		System.out.println("******");
-		System.out.println("Tast T for tara (svarende til knaptryk paa vægt)");
-		System.out.println("Tast B for ny brutto (svarende til at belastningen på vægt ændres)");
+		System.out.println("Tast T for tara (svarende til knaptryk paa vï¿½gt)");
+		System.out.println("Tast B for ny brutto (svarende til at belastningen pï¿½ vï¿½gt ï¿½ndres)");
 		System.out.println("Tast Q for at afslutte program program");
-		System.out.println("Indtast (T/B/Q for knaptryk / brutto ændring / quit)");
+		System.out.println("Indtast (T/B/Q for knaptryk / brutto ï¿½ndring / quit)");
 		if (this.vaegtdata.getRm20_kommando()!="") {
-			System.out.println("Svar på RM20 kommando");
+			System.out.println("Svar pï¿½ RM20 kommando");
 			System.out.print ("Tast her: ");
 		}
 		else {
