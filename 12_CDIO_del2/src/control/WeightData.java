@@ -72,6 +72,11 @@ public class WeightData {
 	public void setStreng_fra_bruger(String streng_fra_bruger) {
 		this.streng_fra_bruger = streng_fra_bruger;
 	}
+	
+	public void taraWeight() {
+		tara = brutto;
+		brutto = 0;
+	}
 
 	public WeightData() {
 		// TODO Auto-generated constructor stub
