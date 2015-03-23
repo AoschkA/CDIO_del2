@@ -15,7 +15,6 @@ public class IOController implements Runnable {
 	int userdisc = 1;
 	static ServerSocket listener;
 	private static int menutrue = 0;
-	private static boolean running = true;
 	private static String inline;
 	private static int portdst = 8000;
 	private static Socket sock;
@@ -25,79 +24,38 @@ public class IOController implements Runnable {
 
 	// Jar fil kørt uden argumenter
 	public IOController(WeightData vaegtdata) {
-		try {
 			this.vaegtdata = vaegtdata;
-			listener = new ServerSocket(portdst);
-			sock = listener.accept();
-			instream = new BufferedReader(new InputStreamReader(
-					sock.getInputStream()));
-			outstream = new DataOutputStream(sock.getOutputStream());
-			this.vaegtdata.setConnected_host(sock.getInetAddress());
-			System.out.println("Currently connected: " + this.vaegtdata.getConnected_host()
-					+ " Port: " + portdst);
-			outstream.writeBytes("Velkommen til Mettler BBK Vægt-simulator "
-					+ "\r\n");
-			// outstream.writeBytes("\r" + "\n");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 	}
 	// Jar fil kørt med 1 argument (port)
 	public IOController(int port, WeightData vaegtdata) {
-		try {
 			this.vaegtdata = vaegtdata;
 			portdst = port;
-			listener = new ServerSocket(portdst);
-			sock = listener.accept();
-			instream = new BufferedReader(new InputStreamReader(
-					sock.getInputStream()));
-			outstream = new DataOutputStream(sock.getOutputStream());
-			this.vaegtdata.setConnected_host(sock.getInetAddress());
-			System.out.println("Currently connected: " + this.vaegtdata.getConnected_host()
-					+ " Port: " + portdst);			
-			outstream.writeBytes("Velkommen til Mettler BBK Vægt-simulator "
-							+ "\r\n");
-			// outstream.writeBytes("\r" + "\n");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 	}
 	// Jar fil kørt med 2 argumenter (port og menu)
-	public IOController(int port, int medmenu, WeightData vaegtdata) {
-		try {
+	public IOController(int port, int medmenu, WeightData vaegtdata) throws IOException {
 			this.vaegtdata = vaegtdata;
 			menutrue = medmenu;
 			portdst = port;
-			listener = new ServerSocket(portdst);
-			sock = listener.accept();
-			instream = new BufferedReader(new InputStreamReader(
-					sock.getInputStream()));
-			outstream = new DataOutputStream(sock.getOutputStream());
-			this.vaegtdata.setConnected_host(sock.getInetAddress());
-			System.out.println("Currently connected: " + this.vaegtdata.getConnected_host()
-					+ " Port: " + portdst);
-			outstream.writeBytes("Velkommen til Mettler BBK Vægt-simulator "
-					+ "\r\n");
 			if (menutrue == 1) {
 				outstream.writeBytes("Tryk A for at vise vægtens kommandoer. "
 						+ "\r\n");
 			}
 			// outstream.writeBytes("\r" + "\n");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 	}
-
 	public void user_Input() throws IOException {
 		try {
-
-			while (!(inline = instream.readLine().toUpperCase()).isEmpty()) {
+			while (!(inline = instream.readLine().toUpperCase()).isEmpty()
+					&& !vaegtdata.isRun()) {
+				listener = new ServerSocket(portdst);
+				sock = listener.accept();
+				instream = new BufferedReader(new InputStreamReader(
+						sock.getInputStream()));
+				outstream = new DataOutputStream(sock.getOutputStream());
+				this.vaegtdata.setConnected_host(sock.getInetAddress());
+				System.out.println("Currently connected: "
+						+ this.vaegtdata.getConnected_host() + " Port: " + portdst);
+				outstream.writeBytes("Velkommen til Mettler BBK Vægt-simulator "
+						+ "\r\n");
 				System.out.println(inline);
 				if (inline.startsWith("Ÿ")) {
 					inline = inline.substring(21, inline.length());
@@ -204,11 +162,12 @@ public class IOController implements Runnable {
 				} else {
 					outstream.writeBytes("" + "\r\n");
 				}
+				Thread.sleep(100);
 			}
 		} catch (InputLengthException e) {
 			outstream.writeBytes("ES" + "\r\n");
 			user_Input();
-		} catch (Exception e){
+		} catch (Exception e) {
 			userdisc = 0;
 			System.out.println("fejl");
 		}
@@ -216,13 +175,10 @@ public class IOController implements Runnable {
 
 	@Override
 	public void run() {
-
-		while (running) {
+		while(vaegtdata.isRun()) {
 			try {
-				if (userdisc != 0) {
-					user_Input();
-				}
-				if (userdisc == 0) {
+				user_Input();
+				if (userdisc == 0 || vaegtdata.isRun()) {
 					System.in.close();
 					System.out.close();
 					instream.close();
@@ -235,10 +191,8 @@ public class IOController implements Runnable {
 				e.printStackTrace();
 			}
 		}
-
 	}
-
-	public void start() {
+	public void start() throws InterruptedException {
 		System.out.println("Starting " + name);
 		if (t == null) {
 			t = new Thread(this, name);

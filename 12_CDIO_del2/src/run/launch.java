@@ -1,29 +1,43 @@
 package run;
+import java.io.IOException;
+
+import control.ClientController;
 import control.IOController;
 import control.WeightData;
 
 public class launch {
 	static WeightData vaegtdata = new WeightData();
 	static IOController io;
-	
+	static ClientController cc = new ClientController(vaegtdata);
 	public static void main(String args[]){
 		switch(args.length){
 		case 0:
 			io = new IOController(vaegtdata);
-			io.start();
 			break;
 		case 1:
 			io = new IOController(Integer.parseInt(args[0]), vaegtdata);
-			io.start();
 			break;
 		case 2:
-			io = new IOController(Integer.parseInt(args[0]),Integer.parseInt(args[1]), vaegtdata);
-			io.start();
+			try {
+				io = new IOController(Integer.parseInt(args[0]),Integer.parseInt(args[1]), vaegtdata);
+			} catch (NumberFormatException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			break;
 		default:
 			io = new IOController(vaegtdata);
-			io.start();
 			break;	
+		}
+		cc.start();
+		try {
+			io.start();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 }

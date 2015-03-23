@@ -17,7 +17,7 @@ public class TUI {
 		vaegtdata.setBrutto(0);
 		vaegtdata.setRm20_kommando("");
 		try {
-			vaegtdata.setConnected_host(InetAddress.getByName("/127.0.0.1"));
+			vaegtdata.setConnected_host(InetAddress.getByName("127.0.0.1"));
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
