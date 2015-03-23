@@ -7,9 +7,11 @@ import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import exceptions.InputLengthException;
+
 public class IOController implements Runnable {
 	Thread t;
-	String name = "IO-Tråd";
+	String name = "IO-Trï¿½d";
 	int userdisc = 1;
 	static ServerSocket listener;
 	private static int menutrue = 0;
@@ -29,8 +31,8 @@ public class IOController implements Runnable {
 					sock.getInputStream()));
 			outstream = new DataOutputStream(sock.getOutputStream());
 			this.vaegtdata.setConnected_host(sock.getInetAddress());
-			System.out.println("Venter på connection på port " + portdst);
-			outstream.writeBytes("Velkommen til Vægt v.1.0 " + "\r\n");
+			System.out.println("Venter pï¿½ connection pï¿½ port " + portdst);
+			outstream.writeBytes("Velkommen til Vï¿½gt v.1.0 " + "\r\n");
 			// outstream.writeBytes("\r" + "\n");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -47,8 +49,8 @@ public class IOController implements Runnable {
 					sock.getInputStream()));
 			outstream = new DataOutputStream(sock.getOutputStream());
 			this.vaegtdata.setConnected_host(sock.getInetAddress());
-			System.out.println("Venter på connection på port " + portdst);
-			outstream.writeBytes("Velkommen til Mettler BBK Vægt-simulator " + "\r\n");
+			System.out.println("Venter pï¿½ connection pï¿½ port " + portdst);
+			outstream.writeBytes("Velkommen til Mettler BBK Vï¿½gt-simulator " + "\r\n");
 			// outstream.writeBytes("\r" + "\n");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -66,10 +68,10 @@ public class IOController implements Runnable {
 					sock.getInputStream()));
 			outstream = new DataOutputStream(sock.getOutputStream());
 			this.vaegtdata.setConnected_host(sock.getInetAddress());
-			System.out.println("Venter på connection på port " + portdst);
-			outstream.writeBytes("Velkommen til Mettler BBK Vægt-simulator " + "\r\n");
+			System.out.println("Venter pï¿½ connection pï¿½ port " + portdst);
+			outstream.writeBytes("Velkommen til Mettler BBK Vï¿½gt-simulator " + "\r\n");
 			if (menutrue == 1){
-				outstream.writeBytes("Tryk A for at vise vægtens kommandoer. " + "\r\n");
+				outstream.writeBytes("Tryk A for at vise vï¿½gtens kommandoer. " + "\r\n");
 			}
 			// outstream.writeBytes("\r" + "\n");
 		} catch (IOException e) {
@@ -82,28 +84,28 @@ public class IOController implements Runnable {
 	public void user_Input() throws IOException {
 
 		// System.out.println("Indtast eventuel portnummer som 1. argument");
-		// System.out.println("på kommando linien for andet portnr");
+		// System.out.println("pï¿½ kommando linien for andet portnr");
 
 		try {
 
 			while (!(inline = instream.readLine().toUpperCase()).isEmpty()) {
 
-				if (inline.startsWith("Ÿ")) {
+				if (inline.startsWith("ï¿½")) {
 					inline = inline.substring(21, inline.length());
 				}
 				if (inline.startsWith("A")) {
 					menutrue = 2;
 				}
 				if (menutrue == 2){
-					outstream.writeBytes("Kommandoer til vægten: " + "\r\n");
-					outstream.writeBytes("1: T - Tarer vægten " + "\r\n");
-					outstream.writeBytes("2: S - Vis nuværende vægt " + "\r\n");
-					outstream.writeBytes("3: B ... - ændre brutto vægt på vægten " + "\r\n");
-					outstream.writeBytes("4: D ... - ændre display 1's tekst " + "\r\n");
+					outstream.writeBytes("Kommandoer til vï¿½gten: " + "\r\n");
+					outstream.writeBytes("1: T - Tarer vï¿½gten " + "\r\n");
+					outstream.writeBytes("2: S - Vis nuvï¿½rende vï¿½gt " + "\r\n");
+					outstream.writeBytes("3: B ... - ï¿½ndre brutto vï¿½gt pï¿½ vï¿½gten " + "\r\n");
+					outstream.writeBytes("4: D ... - ï¿½ndre display 1's tekst " + "\r\n");
 					outstream.writeBytes("5: DW - nulstil display 1 " + "\r\n");
 					outstream.writeBytes("6: P111 - blahblah " + "\r\n");
-					outstream.writeBytes("7: RM20 8 ... - kommandoer til vægtens bruger " + "\r\n");
-					outstream.writeBytes("8: Q - afslut vægt " + "\r\n");
+					outstream.writeBytes("7: RM20 8 ... - kommandoer til vï¿½gtens bruger " + "\r\n");
+					outstream.writeBytes("8: Q - afslut vï¿½gt " + "\r\n");
 					menutrue = 1;
 				}
 				if (inline.startsWith("RM20")) {
@@ -117,17 +119,26 @@ public class IOController implements Runnable {
 					outstream.writeBytes("DW " + "A" + "cr" + "lf" + "\r\n");
 				} else if (inline.startsWith("D")) {
 					if (inline.equals("D")) {
-						this.vaegtdata.setInstruktionsdisplay1("");
-						this.vaegtdata
-								.setStreng_fra_bruger(inline.substring(0));
-						outstream.writeBytes("D " + "A" + "cr" + "lf" + "\r\n");
+						inline = instream.readLine();
+						if (inline.length() >7)
+							throw new InputLengthException();
 					} else {
-						this.vaegtdata
-								.setStreng_fra_bruger(inline.substring(0));
-						this.vaegtdata.setInstruktionsdisplay1(inline
-								.substring(2, inline.length()));
+						if (inline.length() >9)
+							throw new InputLengthException();
 					}
+					this.vaegtdata.setInstruktionsdisplay1(inline);
+					this.vaegtdata
+							.setStreng_fra_bruger(inline.substring(0));
+					outstream.writeBytes("D " + "A" + "cr" + "lf" + "\r\n");
 				} else if (inline.startsWith("P111")) {
+					if (inline.equals("P111")) {
+						inline = instream.readLine();
+						if (inline.length() > 30)
+							throw new InputLengthException();
+					} else {
+					if (inline.length() > 35)
+						throw new InputLengthException();
+					} 
 					this.vaegtdata.setStreng_fra_bruger(inline.substring(0));
 					this.vaegtdata.setInstruktionsdisplay2(inline.substring(2,
 							inline.length()));
@@ -145,18 +156,18 @@ public class IOController implements Runnable {
 							+ "\r\n");
 				} else if (inline.startsWith("B")) {
 					// denne ordre findes
-					// ikke på en fysisk vægt
+					// ikke pï¿½ en fysisk vï¿½gt
 					String temp = inline.substring(2, inline.length());
 					this.vaegtdata.setStreng_fra_bruger(inline.substring(0));
 					this.vaegtdata.setBrutto(Double.parseDouble(temp));
-					outstream.writeBytes("B " + "ændret Brutto til: "
+					outstream.writeBytes("B " + "ï¿½ndret Brutto til: "
 							+ +(vaegtdata.getBrutto()) + " kg " + "cr" + "lf"
 							+ "\r\n");
 				} else if ((inline.startsWith("Q"))) {
-					// denne ordre findes heller ikke på den fysiske vægt.
+					// denne ordre findes heller ikke pï¿½ den fysiske vï¿½gt.
 					this.vaegtdata.setStreng_fra_bruger(inline.substring(0));
 					System.out.println("");
-					System.out.println("Program stoppet Q modtaget på com port"
+					System.out.println("Program stoppet Q modtaget pï¿½ com port"
 							+ "\r\n");
 					System.in.close();
 					System.out.close();
@@ -165,10 +176,12 @@ public class IOController implements Runnable {
 				} else {
 					outstream.writeBytes("" + "\r\n");
 				}
+				System.out.println("ingen fejl");
 			}
-		} catch (Exception e) {
-			System.out.println("Exception her: " + e.getMessage());
-			userdisc = 0;
+		}  catch (InputLengthException e) {
+			outstream.writeBytes("ES"+"\r\n");
+			System.out.println("fejl!");
+			user_Input();
 		}
 	}
 
