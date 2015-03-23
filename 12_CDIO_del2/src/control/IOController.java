@@ -155,6 +155,7 @@ public class IOController implements Runnable {
 					System.out.println("Program stoppet Q modtaget på com port"
 							+ "\r\n");
 					userdisc = 0;
+					vaegtdata.setRun(true);
 					System.in.close();
 					System.out.close();
 					instream.close();
