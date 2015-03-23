@@ -87,6 +87,10 @@ public class IOController implements Runnable {
 		try {
 
 			while (!(inline = instream.readLine().toUpperCase()).isEmpty()) {
+
+				if (inline.startsWith("Ÿ")) {
+					inline = inline.substring(21, inline.length());
+				}
 				if (inline.startsWith("A")) {
 					menutrue = 2;
 				}
@@ -101,9 +105,6 @@ public class IOController implements Runnable {
 					outstream.writeBytes("7: RM20 8 ... - kommandoer til vægtens bruger " + "\r\n");
 					outstream.writeBytes("8: Q - afslut vægt " + "\r\n");
 					menutrue = 1;
-				}
-				if (inline.startsWith("Ÿ")) {
-					inline = inline.substring(21, inline.length());
 				}
 				if (inline.startsWith("RM20")) {
 					this.vaegtdata.setStreng_fra_bruger(inline.substring(0));
