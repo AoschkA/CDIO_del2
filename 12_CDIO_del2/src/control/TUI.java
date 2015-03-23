@@ -1,11 +1,19 @@
 package control;
 
-public class TUI {
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
-	public TUI() {
-		// TODO Auto-generated constructor stub
+public class TUI {
+	WeightData vaegtdata = new WeightData();
+	
+	public TUI() throws UnknownHostException {
+		vaegtdata.setInstruktionsdisplay1("Standard Display 1");
+		vaegtdata.setBrutto(0);
+		vaegtdata.setRm20_kommando("");
+		vaegtdata.setConnected_host(InetAddress.getByName("127.0.0.1"));
+		vaegtdata.setInstruktionsdisplay2("Standard Display 2");
 	}
-	public void print_Menu(WeightData vaegtdata) {
+	public void print_Menu() {
 
 		System.out.println(" ");
 		System.out.println("*************************************************");
