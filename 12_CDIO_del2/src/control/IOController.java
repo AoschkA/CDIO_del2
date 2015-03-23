@@ -68,6 +68,9 @@ public class IOController implements Runnable {
 			this.vaegtdata.setConnected_host(sock.getInetAddress());
 			System.out.println("Venter på connection på port " + portdst);
 			outstream.writeBytes("Velkommen til Mettler BBK Vægt-simulator " + "\r\n");
+			if (menutrue == 1){
+				outstream.writeBytes("Tryk A for at vise vægtens kommandoer. " + "\r\n");
+			}
 			// outstream.writeBytes("\r" + "\n");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -84,9 +87,6 @@ public class IOController implements Runnable {
 		try {
 
 			while (!(inline = instream.readLine().toUpperCase()).isEmpty()) {
-				if (menutrue == 1){
-					outstream.writeBytes("Tryk A for at vise vægtens kommandoer. " + "\r\n");
-				}
 				if (inline.startsWith("A")) {
 					menutrue = 2;
 				}
