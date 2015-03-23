@@ -29,7 +29,6 @@ public class TUI {
 		System.out.println("******");
 		System.out.println("Tast T for tara (svarende til knaptryk paa vægt)");
 		System.out.println("Tast B for ny brutto (svarende til at belastningen på vægt ændres)");
-		System.out.println("Tast C for ny port");
 		System.out.println("Tast Q for at afslutte program program");
 		System.out.println("Indtast (T/B/Q for knaptryk / brutto ændring / quit)");
 		if (vaegtdata.getRm20_kommando()!="") {
