@@ -1,15 +1,15 @@
 package run;
-
-import java.io.IOException;
-
 import control.IOController;
 
 public class launch {
 	public static void main(String args[]){
 		
-		if(args.length > 0) {
-			int temp = Integer.parseInt(args[0]);
-			IOController io = new IOController(temp);
+		if(args.length == 1) {
+			IOController io = new IOController(Integer.parseInt(args[0]));
+			io.start();
+		}
+		if(args.length == 2) {
+			IOController io = new IOController(Integer.parseInt(args[0]),Integer.parseInt(args[1]));
 			io.start();
 		}else{
 			IOController io = new IOController();

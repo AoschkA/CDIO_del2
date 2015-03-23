@@ -37,7 +37,7 @@ public class TUI {
 		System.out.println("*************************************************");
 		System.out.println("Netto: " + (this.vaegtdata.getNetto())+ " kg" );
 		System.out.println("Instruktionsdisplay: " + this.vaegtdata.getInstruktionsdisplay1());
-		System.out.println("Sekund�rtdisplay: " + this.vaegtdata.getInstruktionsdisplay2());
+		System.out.println("Sekundærtdisplay: " + this.vaegtdata.getInstruktionsdisplay2());
 		if (vaegtdata.getRm20_kommando()!=""){
 			System.out.println("Fra Bruger: " + this.vaegtdata.getRm20_kommando());
 		}
@@ -49,16 +49,16 @@ public class TUI {
 		System.out.println("Brutto: " + (this.vaegtdata.getBrutto())+ " kg" );
 		System.out.println("Streng modtaget: "+ this.vaegtdata.getStreng_fra_bruger());
 		System.out.println(" ");
-		System.out.println("Denne v�gt simulator lytter p� ordrene ");
+		System.out.println("Denne vægt simulator lytter på ordrene ");
 		System.out.println("D, DN, S, T, B, Q ");
-		System.out.println("p� kommunikationsporten. ");
+		System.out.println("på kommunikationsporten. ");
 		System.out.println("******");
-		System.out.println("Tast T for tara (svarende til knaptryk paa v�gt)");
-		System.out.println("Tast B for ny brutto (svarende til at belastningen p� v�gt �ndres)");
+		System.out.println("Tast T for tara (svarende til knaptryk paa vægt)");
+		System.out.println("Tast B for ny brutto (svarende til at belastningen på vægt ændres)");
 		System.out.println("Tast Q for at afslutte program program");
-		System.out.println("Indtast (T/B/Q for knaptryk / brutto �ndring / quit)");
+		System.out.println("Indtast (T/B/Q for knaptryk / brutto ændring / quit)");
 		if (this.vaegtdata.getRm20_kommando()!="") {
-			System.out.println("Svar p� RM20 kommando");
+			System.out.println("Svar på RM20 kommando");
 			System.out.print ("Tast her: ");
 		}
 		else {

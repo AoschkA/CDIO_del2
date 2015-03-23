@@ -12,6 +12,7 @@ public class IOController implements Runnable {
 	String name = "IO-Tråd";
 	int userdisc = 1;
 	static ServerSocket listener;
+	private static int menutrue = 0;
 	private static boolean running = true;
 	private static String inline;
 	private static int portdst = 8000;
@@ -55,6 +56,25 @@ public class IOController implements Runnable {
 		}
 
 	}
+	public IOController(int port, int medmenu) {
+		try {
+			menutrue = medmenu;
+			portdst = port;
+			listener = new ServerSocket(portdst);
+			sock = listener.accept();
+			instream = new BufferedReader(new InputStreamReader(
+					sock.getInputStream()));
+			outstream = new DataOutputStream(sock.getOutputStream());
+			this.vaegtdata.setConnected_host(sock.getInetAddress());
+			System.out.println("Venter på connection på port " + portdst);
+			outstream.writeBytes("Velkommen til Mettler BBK Vægt-simulator " + "\r\n");
+			// outstream.writeBytes("\r" + "\n");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
 
 	public void user_Input() throws IOException {
 
@@ -64,9 +84,26 @@ public class IOController implements Runnable {
 		try {
 
 			while (!(inline = instream.readLine().toUpperCase()).isEmpty()) {
+				if (menutrue == 1){
+					outstream.writeBytes("Tryk A for at vise vægtens kommandoer. " + "\r\n");
+				}
+				if (inline.startsWith("A")) {
+					menutrue = 2;
+				}
+				if (menutrue == 2){
+					outstream.writeBytes("Kommandoer til vægten: " + "\r\n");
+					outstream.writeBytes("1: T - Tarer vægten " + "\r\n");
+					outstream.writeBytes("2: S - Vis nuværende vægt " + "\r\n");
+					outstream.writeBytes("3: B ... - ændre brutto vægt på vægten " + "\r\n");
+					outstream.writeBytes("4: D ... - ændre display 1's tekst " + "\r\n");
+					outstream.writeBytes("5: DW - nulstil display 1 " + "\r\n");
+					outstream.writeBytes("6: P111 - blahblah " + "\r\n");
+					outstream.writeBytes("7: RM20 8 ... - kommandoer til vægtens bruger " + "\r\n");
+					outstream.writeBytes("8: Q - afslut vægt " + "\r\n");
+					menutrue = 1;
+				}
 				if (inline.startsWith("Ÿ")) {
 					inline = inline.substring(21, inline.length());
-					System.out.println(inline);
 				}
 				if (inline.startsWith("RM20")) {
 					this.vaegtdata.setStreng_fra_bruger(inline.substring(0));
