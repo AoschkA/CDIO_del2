@@ -142,7 +142,7 @@ public class IOController implements Runnable {
 						throw new InputLengthException();
 					} 
 					else {
-						String temp = inline.substring(2, inline.length());
+						String temp = inline.substring(2, inline.length() - 3);
 						this.vaegtdata
 								.setStreng_fra_bruger(inline.substring(0));
 						if (Double.parseDouble(temp) <= 6.02) {
