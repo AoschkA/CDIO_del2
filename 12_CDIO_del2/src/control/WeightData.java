@@ -9,7 +9,7 @@ public class WeightData {
 	static String instruktionsdisplay1 = "";
 	static String instruktionsdisplay2 = "";
 	static String streng_fra_bruger = "";
-	InetAddress connected_host = null;
+	static InetAddress connected_host = null;
 	static String rm20_kommando = "";
 	
 	public String getRm20_kommando() {
@@ -25,7 +25,7 @@ public class WeightData {
 	}
 
 	public void setConnected_host(InetAddress inetAddress) {
-		this.connected_host = inetAddress;
+		WeightData.connected_host = inetAddress;
 	}
 
 	public double getTara() {
@@ -81,6 +81,7 @@ public class WeightData {
 	public WeightData() {
 		// TODO Auto-generated constructor stub
 	}
+
 	
 
 }

@@ -31,9 +31,10 @@ public class IOController implements Runnable {
 					sock.getInputStream()));
 			outstream = new DataOutputStream(sock.getOutputStream());
 			this.vaegtdata.setConnected_host(sock.getInetAddress());
-			System.out.println("Currently connected: " + sock.getInetAddress()
+			System.out.println("Currently connected: " + this.vaegtdata.getConnected_host()
 					+ " Port: " + portdst);
-			outstream.writeBytes("Velkommen til Vægt v.1.0 " + "\r\n");
+			outstream.writeBytes("Velkommen til Mettler BBK Vægt-simulator "
+					+ "\r\n");
 			// outstream.writeBytes("\r" + "\n");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -51,9 +52,10 @@ public class IOController implements Runnable {
 					sock.getInputStream()));
 			outstream = new DataOutputStream(sock.getOutputStream());
 			this.vaegtdata.setConnected_host(sock.getInetAddress());
-			System.out.println("Venter på connection på port " + portdst);
+			System.out.println("Currently connected: " + this.vaegtdata.getConnected_host()
+					+ " Port: " + portdst);			
 			outstream.writeBytes("Velkommen til Mettler BBK Vægt-simulator "
-					+ "\r\n");
+							+ "\r\n");
 			// outstream.writeBytes("\r" + "\n");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -72,7 +74,8 @@ public class IOController implements Runnable {
 					sock.getInputStream()));
 			outstream = new DataOutputStream(sock.getOutputStream());
 			this.vaegtdata.setConnected_host(sock.getInetAddress());
-			System.out.println("Venter på connection på port " + portdst);
+			System.out.println("Currently connected: " + this.vaegtdata.getConnected_host()
+					+ " Port: " + portdst);
 			outstream.writeBytes("Velkommen til Mettler BBK Vægt-simulator "
 					+ "\r\n");
 			if (menutrue == 1) {
