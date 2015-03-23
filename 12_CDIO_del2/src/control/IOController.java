@@ -20,7 +20,7 @@ public class IOController implements Runnable {
 	private static DataOutputStream outstream;
 	WeightData vaegtdata = new WeightData();
 
-	public IOController(){
+	public IOController() {
 		try {
 			listener = new ServerSocket(portdst);
 			sock = listener.accept();
@@ -30,26 +30,43 @@ public class IOController implements Runnable {
 			this.vaegtdata.setConnected_host(sock.getInetAddress());
 			System.out.println("Venter på connection på port " + portdst);
 			outstream.writeBytes("Velkommen til Vægt v.1.0 " + "\r\n");
-			//outstream.writeBytes("\r" + "\n");
+			// outstream.writeBytes("\r" + "\n");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
+	public IOController(int port) {
+		try {
+			portdst = port;
+			listener = new ServerSocket(portdst);
+			sock = listener.accept();
+			instream = new BufferedReader(new InputStreamReader(
+					sock.getInputStream()));
+			outstream = new DataOutputStream(sock.getOutputStream());
+			this.vaegtdata.setConnected_host(sock.getInetAddress());
+			System.out.println("Venter på connection på port " + portdst);
+			outstream.writeBytes("Velkommen til Vægt v.1.0 " + "\r\n");
+			// outstream.writeBytes("\r" + "\n");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
 	public void user_Input() throws IOException {
-		
+
 		// System.out.println("Indtast eventuel portnummer som 1. argument");
 		// System.out.println("på kommando linien for andet portnr");
-		
 
 		try {
-			
+
 			while (!(inline = instream.readLine().toUpperCase()).isEmpty()) {
-				System.out.println(inline);
-					if (inline.startsWith("Ÿ")){
+				if (inline.startsWith("Ÿ")) {
+					inline = inline.substring(21, inline.length());
 					System.out.println(inline);
-					continue;
 				}
 				if (inline.startsWith("RM20")) {
 					this.vaegtdata.setStreng_fra_bruger(inline.substring(0));
@@ -63,12 +80,14 @@ public class IOController implements Runnable {
 				} else if (inline.startsWith("D")) {
 					if (inline.equals("D")) {
 						this.vaegtdata.setInstruktionsdisplay1("");
-						this.vaegtdata.setStreng_fra_bruger(inline.substring(0));
+						this.vaegtdata
+								.setStreng_fra_bruger(inline.substring(0));
 						outstream.writeBytes("D " + "A" + "cr" + "lf" + "\r\n");
 					} else {
-						this.vaegtdata.setStreng_fra_bruger(inline.substring(0));
-						this.vaegtdata.setInstruktionsdisplay1(inline.substring(2,
-								inline.length()));
+						this.vaegtdata
+								.setStreng_fra_bruger(inline.substring(0));
+						this.vaegtdata.setInstruktionsdisplay1(inline
+								.substring(2, inline.length()));
 					}
 				} else if (inline.startsWith("P111")) {
 					this.vaegtdata.setStreng_fra_bruger(inline.substring(0));
@@ -79,31 +98,33 @@ public class IOController implements Runnable {
 					this.vaegtdata.setStreng_fra_bruger(inline.substring(0));
 					this.vaegtdata.setTara(vaegtdata.getBrutto());
 					outstream.writeBytes("T " + "S " + "    "
-							+ (vaegtdata.getTara()) + " kg " + "cr" + "lf" + "\r\n");
+							+ (vaegtdata.getTara()) + " kg " + "cr" + "lf"
+							+ "\r\n");
 				} else if (inline.equals("S")) {
 					this.vaegtdata.setStreng_fra_bruger(inline.substring(0));
 					outstream.writeBytes("S " + "S " + "    "
-							+ (vaegtdata.getNetto()) + " kg " + "cr" + "lf" + "\r\n");
+							+ (vaegtdata.getNetto()) + " kg " + "cr" + "lf"
+							+ "\r\n");
 				} else if (inline.startsWith("B")) {
 					// denne ordre findes
 					// ikke på en fysisk vægt
 					String temp = inline.substring(2, inline.length());
 					this.vaegtdata.setStreng_fra_bruger(inline.substring(0));
 					this.vaegtdata.setBrutto(Double.parseDouble(temp));
-					outstream.writeBytes("B " + "ændret Brutto til: " +
-							+ (vaegtdata.getBrutto()) + " kg " + "cr" + "lf" + "\r\n");
+					outstream.writeBytes("B " + "ændret Brutto til: "
+							+ +(vaegtdata.getBrutto()) + " kg " + "cr" + "lf"
+							+ "\r\n");
 				} else if ((inline.startsWith("Q"))) {
 					// denne ordre findes heller ikke på den fysiske vægt.
 					this.vaegtdata.setStreng_fra_bruger(inline.substring(0));
 					System.out.println("");
-					System.out
-							.println("Program stoppet Q modtaget på com port" + "\r\n");
+					System.out.println("Program stoppet Q modtaget på com port"
+							+ "\r\n");
 					System.in.close();
 					System.out.close();
 					instream.close();
 					outstream.close();
-				}
-				else{
+				} else {
 					outstream.writeBytes("" + "\r\n");
 				}
 			}
@@ -113,16 +134,15 @@ public class IOController implements Runnable {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void run() {
 
 		while (running) {
 			try {
-				if(userdisc != 0){
-				user_Input();
+				if (userdisc != 0) {
+					user_Input();
 				}
-				if(userdisc == 0){
+				if (userdisc == 0) {
 					System.in.close();
 					System.out.close();
 					instream.close();
