@@ -8,9 +8,8 @@ public class launch {
 	public static void main(String args[]){
 		
 		if(args.length > 0) {
-			String temp = args[0];
-			int tempint = Integer.parseInt(temp);
-			IOController io = new IOController(tempint);
+			int temp = Integer.parseInt(args[0]);
+			IOController io = new IOController(temp);
 			io.start();
 		}else{
 			IOController io = new IOController();
