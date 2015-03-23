@@ -5,7 +5,6 @@ import java.io.IOException;
 
 public class ClientController {
 	private TUI TUI = new TUI();
-	private static DataOutputStream outstream;
 	private WeightData vaegtdata;
 
 	public ClientController(WeightData vaegtdata) {
@@ -37,26 +36,25 @@ public class ClientController {
 		return output;
 	}
 
-	public void runMenu() throws InterruptedException {
+	public boolean runMenu() {
 		TUI.print_Menu(vaegtdata);
-		boolean run = true;
-		while (run) {
-			Thread.sleep(1000);
-			String answer = getStringInput();
+		String answer = getStringInput();
 			if (answer.equals("Q")) {
-				run = false;
+				// terminate
 				TUI.printMessage("Du har afsluttet programmet");
+				return true;
 			} else if (answer.equals("T")) {
 				vaegtdata.taraWeight();
+				return false;
 			} else if (answer.equals("B")) {
-				TUI.printMessage("Indtast brutto vægt:");
+				TUI.printMessage("Indtast brutto vÃ¦gt:");
 				vaegtdata.setBrutto(getIntInput());
-			} else {
-				run = false;
+				return false;
+			}
+			else {
 				TUI.printMessage("Not a known input, please try again:");
-				break;
+				return runMenu();
 			}
 		}
-	}
 
 }
