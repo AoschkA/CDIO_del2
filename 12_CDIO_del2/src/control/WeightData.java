@@ -1,14 +1,15 @@
 package control;
 
+import java.net.InetAddress;
+
 public class WeightData {
 
 	double tara = 0;
 	double brutto = 0;
-	double netto = 0;
 	String instruktionsdisplay1 = "";
 	String instruktionsdisplay2 = "";
 	String streng_fra_bruger = "";
-	String connected_host = "";
+	InetAddress connected_host = null;
 	String rm20_kommando = "";
 	
 	public String getRm20_kommando() {
@@ -19,12 +20,12 @@ public class WeightData {
 		this.rm20_kommando = rm20_kommando;
 	}
 
-	public String getConnected_host() {
+	public InetAddress getConnected_host() {
 		return connected_host;
 	}
 
-	public void setConnected_host(String connected_host) {
-		this.connected_host = connected_host;
+	public void setConnected_host(InetAddress inetAddress) {
+		this.connected_host = inetAddress;
 	}
 
 	public double getTara() {
@@ -44,12 +45,9 @@ public class WeightData {
 	}
 
 	public double getNetto() {
-		return netto;
+		return this.brutto - this.tara;
 	}
 
-	public void setNetto(double netto) {
-		this.netto = netto;
-	}
 
 	public String getInstruktionsdisplay1() {
 		return instruktionsdisplay1;

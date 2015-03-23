@@ -21,44 +21,55 @@ public class IOController {
 		System.out.println("Indtast eventuel portnummer som 1. argument");
 		System.out.println("på kommando linien for andet portnr");
 		sock = listener.accept();
+		vaegtdata.setConnected_host(sock.getInetAddress());
 		instream = new BufferedReader(new InputStreamReader(sock.getInputStream()));
 		outstream = new DataOutputStream(sock.getOutputStream());
 		try{
 			while (!(inline = instream.readLine().toUpperCase()).isEmpty()){
 				if (inline.startsWith("RM20")){
+					vaegtdata.setStreng_fra_bruger(inline.substring(0));
 					vaegtdata.setRm20_kommando(inline.substring(2, inline.length()));
 					outstream.writeBytes("RM20 " + "B");
 				}
 				else if (inline.startsWith("DW")) {
 					vaegtdata.setInstruktionsdisplay1("");
+					vaegtdata.setStreng_fra_bruger(inline.substring(0));
 					outstream.writeBytes("DW " + "A" + "cr" + "lf");
 				}
 				else if (inline.startsWith("D")){
 					if (inline.equals("D")) {
 						vaegtdata.setInstruktionsdisplay1("");
+						vaegtdata.setStreng_fra_bruger(inline.substring(0));
 						outstream.writeBytes("D " + "A" + "cr" + "lf");
 					}
-					else
+					else {
+						vaegtdata.setStreng_fra_bruger(inline.substring(0));
 						vaegtdata.setInstruktionsdisplay1(inline.substring(2, inline.length()));
+					}
 				}
 				else if (inline.startsWith("P111")){
+					vaegtdata.setStreng_fra_bruger(inline.substring(0));
 					vaegtdata.setInstruktionsdisplay2(inline.substring(2, inline.length()));
 					outstream.writeBytes("P111 " + "A" + "cr" + "lf");
 				}
 				else if (inline.startsWith("T")){
+					vaegtdata.setStreng_fra_bruger(inline.substring(0));
 					vaegtdata.setTara(vaegtdata.getBrutto());
 					outstream.writeBytes("T " + "S " + "    " + (vaegtdata.getTara()) + " kg "+"cr" + "lf");
 				}
 				else if (inline.startsWith("S")){
+					vaegtdata.setStreng_fra_bruger(inline.substring(0));
 					outstream.writeBytes("S " + "S " + "    " + (vaegtdata.getNetto()) + " kg "+"cr" + "lf");
 				}
 				else if (inline.startsWith("B")){ 
 					// denne ordre findes
 					//ikke på en fysisk vægt
 					String temp= inline.substring(2,inline.length());
+					vaegtdata.setStreng_fra_bruger(inline.substring(0));
 					vaegtdata.setBrutto(Double.parseDouble(temp));
 				}
 				else if ((inline.startsWith("Q"))){
+					vaegtdata.setStreng_fra_bruger(inline.substring(0));
 					System.out.println("");
 					System.out.println("Program stoppet Q modtaget paa com port");
 					System.in.close();

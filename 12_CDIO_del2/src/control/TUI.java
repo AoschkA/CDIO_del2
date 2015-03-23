@@ -9,7 +9,7 @@ public class TUI {
 
 		System.out.println(" ");
 		System.out.println("*************************************************");
-		System.out.println("Netto: " + (vaegtdata.getBrutto()-vaegtdata.getTara())+ " kg" );
+		System.out.println("Netto: " + (vaegtdata.getNetto())+ " kg" );
 		System.out.println("Instruktionsdisplay: " + vaegtdata.getInstruktionsdisplay1());
 		System.out.println("Sekundærtdisplay: " + vaegtdata.getInstruktionsdisplay2());
 		if (vaegtdata.getRm20_kommando()!=""){
