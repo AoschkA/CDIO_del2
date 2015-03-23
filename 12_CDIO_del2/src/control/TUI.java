@@ -7,14 +7,20 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 public class TUI {
+
 	WeightData vaegtdata = new WeightData();
 	private BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
 	
-	public TUI() throws UnknownHostException {
+	public TUI(){
 		vaegtdata.setInstruktionsdisplay1("Standard Display 1");
 		vaegtdata.setBrutto(0);
 		vaegtdata.setRm20_kommando("");
-		vaegtdata.setConnected_host(InetAddress.getByName("127.0.0.1"));
+		try {
+			vaegtdata.setConnected_host(InetAddress.getByName("127.0.0.1"));
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		vaegtdata.setInstruktionsdisplay2("Standard Display 2");
 	}
 	

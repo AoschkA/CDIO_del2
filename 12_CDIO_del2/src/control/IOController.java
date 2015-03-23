@@ -47,7 +47,7 @@ public class IOController implements Runnable {
 			
 			while (!(inline = instream.readLine().toUpperCase()).isEmpty()) {
 				System.out.println(inline);
-				if (inline.equalsIgnoreCase("")){
+					if (inline.startsWith("Ÿ")){
 					System.out.println(inline);
 					continue;
 				}
@@ -123,7 +123,11 @@ public class IOController implements Runnable {
 				user_Input();
 				}
 				if(userdisc == 0){
-					t.stop();
+					System.in.close();
+					System.out.close();
+					instream.close();
+					outstream.close();
+					break;
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
