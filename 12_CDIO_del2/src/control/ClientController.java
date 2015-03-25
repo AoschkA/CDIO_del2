@@ -6,7 +6,7 @@ import entity.WeightData;
 import boundary.TUI;
 
 public class ClientController implements Runnable {
-	private WeightData vaegtdata;
+	WeightData vaegtdata;
 	TUI tui;
 	IOController io;
 	static String name = "CC-Tråd";
@@ -45,10 +45,7 @@ public class ClientController implements Runnable {
 		tui.print_Menu(vaegtdata);
 		String answer = getStringInput();
 		if (answer.equals("Q")) {
-			// terminate
-			tui.printMessage("Du har afsluttet programmet");
-			vaegtdata.setRun(false);
-			io.closeServer();
+			closeCC();
 		} else if (answer.equals("T")) {
 			vaegtdata.setTara(vaegtdata.getBrutto());
 		} else if (answer.equals("B")) {
@@ -64,10 +61,16 @@ public class ClientController implements Runnable {
 			runMenu();
 		}
 	}
-
+	
+	public void closeCC(){
+		// terminate
+		this.vaegtdata.setRun(false);
+		tui.closeTUI();
+		io.closeServer();
+	}
 	@Override
 	public void run() {
-		while (vaegtdata.isRun()) {
+		while (this.vaegtdata.isRun()) {
 			runMenu();
 			try {
 				Thread.sleep(100);

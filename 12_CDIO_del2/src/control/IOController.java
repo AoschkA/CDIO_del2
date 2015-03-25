@@ -17,20 +17,21 @@ public class IOController implements Runnable {
 	String name = "IO-Tråd";
 	int userdisc = 1;
 	static ServerSocket listener;
-	private static int menutrue = 0;
-	private static String inline;
-	private static int portdst = 8000;
-	private static Socket sock;
-	private static BufferedReader instream;
-	private static DataOutputStream outstream;
-	private TUI tui = new TUI();
+	static int menutrue = 0;
+	static String inline;
+	static int portdst = 8000;
+	static Socket sock;
+	static BufferedReader instream;
+	static DataOutputStream outstream;
+	TUI tui = new TUI();
 	WeightData vaegtdata = new WeightData();
+	ClientController cc;
 
 	// Jar fil kørt uden argumenter
 	public IOController(WeightData vaegtdata) {
 		this.vaegtdata = vaegtdata;
 		this.vaegtdata.setRun(true);
-
+		//cc = new ClientController(vaegtdata);
 	}
 
 	// Jar fil kørt med 1 argument (port)
@@ -118,15 +119,15 @@ public class IOController implements Runnable {
 						this.vaegtdata.setStreng_fra_bruger(inline);
 						this.vaegtdata.setInstruktionsdisplay2("");
 						tui.print_Menu(this.vaegtdata);
+					} else if (inline.length() > 35) {
+						throw new InputLengthException();
+					} else {
+						this.vaegtdata.setStreng_fra_bruger(inline);
+						this.vaegtdata.setInstruktionsdisplay2(inline
+								.substring(2, inline.length()));
+						outstream.writeBytes("P111 " + "A" + "crlf" + "\r\n");
+						tui.print_Menu(this.vaegtdata);
 					}
-					// else if (inline.length() > 35) {
-					// throw new InputLengthException();
-					// }
-					this.vaegtdata.setStreng_fra_bruger(inline);
-					this.vaegtdata.setInstruktionsdisplay2(inline.substring(2,
-							inline.length()));
-					outstream.writeBytes("P111 " + "A" + "crlf" + "\r\n");
-					tui.print_Menu(this.vaegtdata);
 				} else if (inline.startsWith("T")) {
 					this.vaegtdata.setStreng_fra_bruger(inline);
 					this.vaegtdata.setTara(vaegtdata.getBrutto());
@@ -170,10 +171,9 @@ public class IOController implements Runnable {
 					tui.printMessage("Program stoppet Q modtaget på com port"
 							+ "\r\n");
 					vaegtdata.setRun(false);
-					System.in.close();
-					System.out.close();
-					instream.close();
-					outstream.close();
+					cc = new ClientController(vaegtdata);
+					cc.closeCC();
+					closeServer();
 				} else {
 					throw new UnknownInputException();
 				}

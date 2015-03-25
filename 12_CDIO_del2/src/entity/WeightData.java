@@ -4,93 +4,86 @@ import java.net.InetAddress;
 
 public class WeightData {
 
-	double tara = 0;
-	double brutto = 0;
-	String instruktionsdisplay1 = "";
-	String instruktionsdisplay2 = "";
-	String streng_fra_bruger = "";
-	InetAddress connected_host = null;
-	String rm20_kommando = "";
+	static double tara = 0;
+	static double brutto = 0;
+	static String instruktionsdisplay1 = "";
+	static String instruktionsdisplay2 = "";
+	static String streng_fra_bruger = "";
+	static InetAddress connected_host = null;
+	static String rm20_kommando = "";
 	static boolean run = true;
 	
-	public boolean isRun() {
+	public synchronized boolean isRun() {
 		return run;
 	}
 
-	public void setRun(boolean run) {
+	public synchronized void setRun(boolean run) {
 		WeightData.run = run;
 	}
 
-	public String getRm20_kommando() {
+	public synchronized String getRm20_kommando() {
 		return rm20_kommando;
 	}
 
-	public void setRm20_kommando(String rm20_kommando) {
+	public synchronized void setRm20_kommando(String rm20_kommando) {
 		this.rm20_kommando = rm20_kommando;
 	}
 
-	public InetAddress getConnected_host() {
+	public synchronized InetAddress getConnected_host() {
 		return connected_host;
 	}
 
-	public void setConnected_host(InetAddress inetAddress) {
+	public synchronized void setConnected_host(InetAddress inetAddress) {
 		this.connected_host = inetAddress;
 	}
 
-	public double getTara() {
+	public synchronized double getTara() {
 		return tara;
 	}
 
-	public void setTara(double tara) {
+	public synchronized void setTara(double tara) {
 		this.tara = tara;
 	}
 
-	public double getBrutto() {
+	public synchronized double getBrutto() {
 		return brutto;
 	}
 
-	public void setBrutto(double brutto) {
+	public synchronized void setBrutto(double brutto) {
 		this.brutto = brutto;
 	}
 
-	public double getNetto() {
+	public synchronized double getNetto() {
 		return this.brutto - this.tara;
 	}
 
 
-	public String getInstruktionsdisplay1() {
+	public synchronized String getInstruktionsdisplay1() {
 		return instruktionsdisplay1;
 	}
 
-	public void setInstruktionsdisplay1(String instruktionsdisplay1) {
+	public synchronized void setInstruktionsdisplay1(String instruktionsdisplay1) {
 		this.instruktionsdisplay1 = instruktionsdisplay1;
 	}
 
-	public String getInstruktionsdisplay2() {
+	public synchronized String getInstruktionsdisplay2() {
 		return instruktionsdisplay2;
 	}
 
-	public void setInstruktionsdisplay2(String instruktionsdisplay2) {
+	public synchronized void setInstruktionsdisplay2(String instruktionsdisplay2) {
 		this.instruktionsdisplay2 = instruktionsdisplay2;
 	}
 
-	public String getStreng_fra_bruger() {
+	public synchronized String getStreng_fra_bruger() {
 		return streng_fra_bruger;
 	}
 
-	public void setStreng_fra_bruger(String streng_fra_bruger) {
+	public synchronized void setStreng_fra_bruger(String streng_fra_bruger) {
 		this.streng_fra_bruger = streng_fra_bruger;
 	}
 	
-	public void taraWeight() {
+	public synchronized void taraWeight() {
 		tara = brutto;
 		brutto = 0;
 	}
-
-	public WeightData() {
-		// TODO Auto-generated constructor stub
-	}
-
-	
-
 }
