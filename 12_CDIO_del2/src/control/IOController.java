@@ -41,16 +41,16 @@ public class IOController implements Runnable {
 	}
 
 	// Jar fil kørt med 2 argumenter (port og menu)
-	public IOController(int port, int medmenu, WeightData vaegtdata)
-			throws IOException {
-		this.vaegtdata = vaegtdata;
-		menutrue = medmenu;
-		portdst = port;
-		if (menutrue == 1) {
-			outstream.writeBytes("Tryk A for at vise vægtens kommandoer. "
-					+ "\r\n");
-		}
-	}
+//	public IOController(int port, int medmenu, WeightData vaegtdata)
+//			throws IOException {
+//		this.vaegtdata = vaegtdata;
+//		menutrue = medmenu;
+//		portdst = port;
+//		if (menutrue == 1) {
+//			outstream.writeBytes("Tryk A for at vise vægtens kommandoer. "
+//					+ "\r\n");
+//		}
+//	}
 
 	public void user_Input() throws IOException {
 		try {
@@ -73,26 +73,26 @@ public class IOController implements Runnable {
 				if (inline.startsWith("�")) {
 					inline = inline.substring(21, inline.length());
 				}
-				if (inline.startsWith("A") && menutrue == 1) {
-					menutrue = 2;
-				}
-				if (menutrue == 2) {
-					outstream.writeUTF("Kommandoer til vægten: " + "\r\n");
-					outstream.writeUTF("1: T - Tarer vægten " + "\r\n");
-					outstream.writeUTF("2: S - Vis nuværende vægt " + "\r\n");
-					outstream
-							.writeUTF("3: B ... - ændre brutto vægt på vægten "
-									+ "\r\n");
-					outstream.writeUTF("4: D ... - ændre display 1's tekst "
-							+ "\r\n");
-					outstream.writeUTF("5: DW - nulstil display 1 " + "\r\n");
-					outstream.writeUTF("6: P111 - blahblah " + "\r\n");
-					outstream
-							.writeUTF("7: RM20 8 ... - kommandoer til vægtens bruger "
-									+ "\r\n");
-					outstream.writeUTF("8: Q - afslut vægt " + "\r\n");
-					menutrue = 1;
-				}
+//				if (inline.startsWith("A") && menutrue == 1) {
+//					menutrue = 2;
+//				}
+//				if (menutrue == 2) {
+//					outstream.writeUTF("Kommandoer til vægten: " + "\r\n");
+//					outstream.writeUTF("1: T - Tarer vægten " + "\r\n");
+//					outstream.writeUTF("2: S - Vis nuværende vægt " + "\r\n");
+//					outstream
+//							.writeUTF("3: B ... - ændre brutto vægt på vægten "
+//									+ "\r\n");
+//					outstream.writeUTF("4: D ... - ændre display 1's tekst "
+//							+ "\r\n");
+//					outstream.writeUTF("5: DW - nulstil display 1 " + "\r\n");
+//					outstream.writeUTF("6: P111 - blahblah " + "\r\n");
+//					outstream
+//							.writeUTF("7: RM20 8 ... - kommandoer til vægtens bruger "
+//									+ "\r\n");
+//					outstream.writeUTF("8: Q - afslut vægt " + "\r\n");
+//					menutrue = 1;
+//				}
 				if (inline.startsWith("RM20")) {
 					this.vaegtdata.setStreng_fra_bruger(inline.substring(0));
 					this.vaegtdata.setRm20_kommando(inline.substring(7,
@@ -155,7 +155,7 @@ public class IOController implements Runnable {
 						String temp = inline.substring(2, inline.length());
 						this.vaegtdata
 								.setStreng_fra_bruger(inline.substring(0));
-						if (Double.parseDouble(temp) / 1000 <= 6.02) {
+						if (Double.parseDouble(temp) / 1000 <= 6.02 && Double.parseDouble(temp) / 1000 >= 0) {
 							this.vaegtdata
 									.setBrutto(Double.parseDouble(temp) / 1000);
 							outstream.writeBytes("DB " + "crlf" + "\r\n");
@@ -177,9 +177,8 @@ public class IOController implements Runnable {
 				} else {
 					throw new UnknownInputException();
 				}
-				Thread.sleep(100);
 			}
-		} catch (InputLengthException | InterruptedException | IOException
+		} catch (InputLengthException | IOException
 				| UnknownInputException e) {
 			if (!listener.isClosed()) {
 				outstream.writeBytes("ES" + "\r\n");
@@ -187,13 +186,9 @@ public class IOController implements Runnable {
 		}
 	}
 
-	public void writeSocket(String s) {
-		try {
+	public void writeSocket(String s) throws IOException {
+
 			outstream.writeBytes(s + "crlf\r\n");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	public void closeServer() {

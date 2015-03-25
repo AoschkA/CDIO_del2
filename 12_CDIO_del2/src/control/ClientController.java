@@ -41,7 +41,7 @@ public class ClientController implements Runnable {
 		return output;
 	}
 
-	public void runMenu() {
+	public void runMenu() throws IOException {
 
 		tui.print_Menu(vaegtdata);
 		String answer = getStringInput();
@@ -74,7 +74,11 @@ public class ClientController implements Runnable {
 
 	@Override
 	public void run() {
-		runMenu();
+		try {
+			runMenu();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void start() {

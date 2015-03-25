@@ -3,9 +3,6 @@ package boundary;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-
 import entity.WeightData;
 
 public class TUI {
@@ -34,7 +31,7 @@ public class TUI {
 
 	public void print_Menu(WeightData vaegtdata) {
 		this.vaegtdata = vaegtdata;
-		System.out.println(" ");
+		clearScreen();
 		System.out.println("*************************************************");
 		if (this.vaegtdata.getRm20_kommando() != "") {
 			System.out.println("Instruktion: "
@@ -78,5 +75,22 @@ public class TUI {
 		}
 
 	}
-
+	public void clearScreen(){
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+	}
 }

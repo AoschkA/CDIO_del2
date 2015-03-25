@@ -1,6 +1,4 @@
 package run;
-import java.io.IOException;
-
 import control.ClientController;
 import control.IOController;
 import entity.WeightData;
@@ -17,17 +15,18 @@ public class launch {
 		case 1:
 			io = new IOController(Integer.parseInt(args[0]), vaegtdata);
 			break;
-		case 2:
-			try {
-				io = new IOController(Integer.parseInt(args[0]),Integer.parseInt(args[1]), vaegtdata);
-			} catch (NumberFormatException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			break;
+			//Åbner op for flere muligheder i kommandolinjen, kun implementeret den ovenstående denne gang.
+//		case 2:
+//			try {
+//				io = new IOController(Integer.parseInt(args[0]),Integer.parseInt(args[1]), vaegtdata);
+//			} catch (NumberFormatException e1) {
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//			} catch (IOException e1) {
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//			}
+//			break;
 		default:
 			io = new IOController(vaegtdata);
 			break;	

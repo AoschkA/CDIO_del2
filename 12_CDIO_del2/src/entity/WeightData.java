@@ -26,7 +26,7 @@ public class WeightData {
 	}
 
 	public synchronized void setRm20_kommando(String rm20_kommando) {
-		this.rm20_kommando = rm20_kommando;
+		WeightData.rm20_kommando = rm20_kommando;
 	}
 
 	public synchronized InetAddress getConnected_host() {
@@ -34,7 +34,7 @@ public class WeightData {
 	}
 
 	public synchronized void setConnected_host(InetAddress inetAddress) {
-		this.connected_host = inetAddress;
+		WeightData.connected_host = inetAddress;
 	}
 
 	public synchronized double getTara() {
@@ -42,7 +42,7 @@ public class WeightData {
 	}
 
 	public synchronized void setTara(double tara) {
-		this.tara = tara;
+		WeightData.tara = tara;
 	}
 
 	public synchronized double getBrutto() {
@@ -50,11 +50,11 @@ public class WeightData {
 	}
 
 	public synchronized void setBrutto(double brutto) {
-		this.brutto = brutto;
+		WeightData.brutto = brutto;
 	}
 
 	public synchronized double getNetto() {
-		return this.brutto - this.tara;
+		return WeightData.brutto - WeightData.tara;
 	}
 
 
@@ -63,7 +63,7 @@ public class WeightData {
 	}
 
 	public synchronized void setInstruktionsdisplay1(String instruktionsdisplay1) {
-		this.instruktionsdisplay1 = instruktionsdisplay1;
+		WeightData.instruktionsdisplay1 = instruktionsdisplay1;
 	}
 
 	public synchronized String getInstruktionsdisplay2() {
@@ -71,7 +71,7 @@ public class WeightData {
 	}
 
 	public synchronized void setInstruktionsdisplay2(String instruktionsdisplay2) {
-		this.instruktionsdisplay2 = instruktionsdisplay2;
+		WeightData.instruktionsdisplay2 = instruktionsdisplay2;
 	}
 
 	public synchronized String getStreng_fra_bruger() {
@@ -79,7 +79,7 @@ public class WeightData {
 	}
 
 	public synchronized void setStreng_fra_bruger(String streng_fra_bruger) {
-		this.streng_fra_bruger = streng_fra_bruger;
+		WeightData.streng_fra_bruger = streng_fra_bruger;
 	}
 	
 	public synchronized void taraWeight() {
