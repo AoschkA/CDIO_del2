@@ -21,6 +21,9 @@ public class TUI {
 		vaegtdata.setInstruktionsdisplay2("");
 	}
 
+	public TUI() {
+	}
+
 	public void printMessage(String message) {
 		System.out.println(message);
 	}
@@ -33,6 +36,10 @@ public class TUI {
 		this.vaegtdata = vaegtdata;
 		System.out.println(" ");
 		System.out.println("*************************************************");
+		if (this.vaegtdata.getRm20_kommando() != "") {
+			System.out.println("Instruktion: "
+					+ this.vaegtdata.getRm20_kommando());
+		}
 		if (this.vaegtdata.getInstruktionsdisplay1() == "") {
 			System.out.println("Netto: " + (this.vaegtdata.getNetto()) + " kg");
 		} else if (this.vaegtdata.getInstruktionsdisplay1() != "") {
@@ -42,10 +49,6 @@ public class TUI {
 		if (this.vaegtdata.getInstruktionsdisplay2() != "") {
 			System.out.println("Sekundærtdisplay: "
 					+ this.vaegtdata.getInstruktionsdisplay2());
-		}
-		if (vaegtdata.getRm20_kommando() != "") {
-			System.out.println("Fra Bruger: "
-					+ this.vaegtdata.getRm20_kommando());
 		}
 		System.out.println("*************************************************");
 		System.out.println(" ");
@@ -68,7 +71,7 @@ public class TUI {
 		System.out
 				.println("Indtast (T/B/Q for knaptryk / brutto ændring / quit)");
 		if (this.vaegtdata.getRm20_kommando() != "") {
-			System.out.println("Svar på RM20 kommando");
+			System.out.println("Tast S for at svare på RM20 kommando");
 			System.out.print("Tast her: ");
 		} else {
 			System.out.print("Tast her: ");

@@ -8,12 +8,14 @@ import boundary.TUI;
 public class ClientController implements Runnable {
 	private WeightData vaegtdata;
 	TUI tui;
+	IOController io;
 	static String name = "CC-Tråd";
 	Thread t;
 
 	public ClientController(WeightData vaegtdata) {
 		this.vaegtdata = vaegtdata;
 		tui = new TUI(vaegtdata);
+		io = new IOController(vaegtdata);
 	}
 
 	private String getStringInput() {
@@ -52,6 +54,10 @@ public class ClientController implements Runnable {
 			tui.printMessage("Indtast brutto vægt:");
 			vaegtdata.setBrutto(getIntInput());
 			System.out.println(vaegtdata.getBrutto());
+		} else if (answer.equals("S")) {
+			tui.printMessage("Indtast dit svar: ");
+			io.writeSocket("RM20 A " + getStringInput() + " crlf");
+			vaegtdata.setRm20_kommando("");
 		} else {
 			tui.printMessage("Not a known input, please try again:");
 			runMenu();
