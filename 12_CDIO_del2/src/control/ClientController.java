@@ -39,31 +39,29 @@ public class ClientController implements Runnable {
 		return output;
 	}
 
-	public boolean runMenu() {
+	public void runMenu() {
 		tui.print_Menu(vaegtdata);
 		String answer = getStringInput();
 		if (answer.equals("Q")) {
 			// terminate
 			tui.printMessage("Du har afsluttet programmet");
-			return true;
+			vaegtdata.setRun(false);
 		} else if (answer.equals("T")) {
 			vaegtdata.setTara(vaegtdata.getBrutto());
-			return false;
 		} else if (answer.equals("B")) {
 			tui.printMessage("Indtast brutto vægt:");
 			vaegtdata.setBrutto(getIntInput());
 			System.out.println(vaegtdata.getBrutto());
-			return false;
 		} else {
 			tui.printMessage("Not a known input, please try again:");
-			return runMenu();
+			runMenu();
 		}
 	}
 
 	@Override
 	public void run() {
-		while (!vaegtdata.isRun()) {
-			vaegtdata.setRun(runMenu());
+		while (vaegtdata.isRun()) {
+			runMenu();
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {

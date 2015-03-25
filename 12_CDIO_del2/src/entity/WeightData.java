@@ -11,7 +11,7 @@ public class WeightData {
 	String streng_fra_bruger = "";
 	InetAddress connected_host = null;
 	String rm20_kommando = "";
-	static boolean run = false;
+	static boolean run = true;
 	
 	public boolean isRun() {
 		return run;

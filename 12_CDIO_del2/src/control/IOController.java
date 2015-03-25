@@ -22,11 +22,12 @@ public class IOController implements Runnable {
 	private static Socket sock;
 	private static BufferedReader instream;
 	private static DataOutputStream outstream;
-	WeightData vaegtdata;
+	WeightData vaegtdata = new WeightData();
 
 	// Jar fil kørt uden argumenter
 	public IOController(WeightData vaegtdata) {
 		this.vaegtdata = vaegtdata;
+		this.vaegtdata.setRun(true);
 	}
 
 	// Jar fil kørt med 1 argument (port)
@@ -50,21 +51,22 @@ public class IOController implements Runnable {
 
 	public void user_Input() throws IOException {
 		try {
-			while (!(inline = instream.readLine().toUpperCase()).isEmpty()
-					&& !vaegtdata.isRun()) {
-				listener = new ServerSocket(portdst);
-				sock = listener.accept();
-				instream = new BufferedReader(new InputStreamReader(
-						sock.getInputStream()));
-				outstream = new DataOutputStream(sock.getOutputStream());
-				this.vaegtdata.setConnected_host(sock.getInetAddress());
-				System.out.println("Currently connected: "
-						+ this.vaegtdata.getConnected_host() + " Port: "
-						+ portdst);
-				outstream
-						.writeBytes("Velkommen til Mettler BBK Vægt-simulator "
-								+ "\r\n");
-				System.out.println(inline);
+
+			listener = new ServerSocket(portdst);
+			sock = listener.accept();
+			instream = new BufferedReader(new InputStreamReader(
+					sock.getInputStream()));
+			outstream = new DataOutputStream(sock.getOutputStream());
+			this.vaegtdata.setConnected_host(sock.getInetAddress());
+			System.out.println("Currently connected: "
+					+ this.vaegtdata.getConnected_host() + " Port: "
+					+ portdst);
+			outstream.writeBytes("Velkommen til Mettler BBK Vægt-simulator "
+							+ "\r\n");
+			System.out.println(inline);
+			
+			while (!(inline = instream.readLine().toUpperCase()).isEmpty()) {
+
 				if (inline.startsWith("Ÿ")) {
 					inline = inline.substring(21, inline.length());
 				}
@@ -144,10 +146,10 @@ public class IOController implements Runnable {
 						throw new InputLengthException();
 					} 
 					else {
-						String temp = inline.substring(2, inline.length() - 3);
+						String temp = inline.substring(2, inline.length());
 						this.vaegtdata
 								.setStreng_fra_bruger(inline.substring(0));
-						if (Double.parseDouble(temp) <= 6.02) {
+						if (Double.parseDouble(temp)/1000 <= 6.02) {
 							this.vaegtdata.setBrutto(Double.parseDouble(temp));
 							outstream.writeBytes("B " + "ændret Brutto til: "
 									+ +(vaegtdata.getBrutto()) + " kg " + "cr"
@@ -162,7 +164,7 @@ public class IOController implements Runnable {
 					outstream.writeBytes("Vægt lukkes \r\n");
 					System.out.println("Program stoppet Q modtaget på com port"
 							+ "\r\n");
-					vaegtdata.setRun(true);
+					vaegtdata.setRun(false);
 					System.in.close();
 					System.out.close();
 					instream.close();
@@ -183,7 +185,7 @@ public class IOController implements Runnable {
 		while (vaegtdata.isRun()) {
 			try {
 				user_Input();
-				if (vaegtdata.isRun()) {
+				if (!vaegtdata.isRun()) {
 					System.in.close();
 					System.out.close();
 					instream.close();
