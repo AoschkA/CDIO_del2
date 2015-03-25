@@ -2,6 +2,9 @@ package control;
 
 import java.io.IOException;
 
+import entity.WeightData;
+import boundary.TUI;
+
 public class ClientController implements Runnable {
 	private WeightData vaegtdata;
 	TUI tui;

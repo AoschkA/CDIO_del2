@@ -3,7 +3,7 @@ import java.io.IOException;
 
 import control.ClientController;
 import control.IOController;
-import control.WeightData;
+import entity.WeightData;
 
 public class launch {
 	static WeightData vaegtdata = new WeightData();

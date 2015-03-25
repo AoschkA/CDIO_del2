@@ -7,7 +7,9 @@ import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import entity.WeightData;
 import exceptions.InputLengthException;
+import exceptions.UnknownInputException;
 
 public class IOController implements Runnable {
 	Thread t;
@@ -166,17 +168,14 @@ public class IOController implements Runnable {
 					instream.close();
 					outstream.close();
 				} else {
-					outstream.writeBytes("" + "\r\n");
+					throw new UnknownInputException();
 				}
 				Thread.sleep(100);
 			}
-		} catch (InputLengthException e) {
+		} catch (InputLengthException | InterruptedException | IOException | UnknownInputException e) {
 			outstream.writeBytes("ES" + "\r\n");
 			user_Input();
-		} catch (Exception e) {
-			userdisc = 0;
-			System.out.println("fejl");
-		}
+		} 
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-package control;
+package entity;
 
 import java.net.InetAddress;
 
