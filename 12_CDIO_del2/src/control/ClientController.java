@@ -11,7 +11,6 @@ public class ClientController implements Runnable {
 	IOController io;
 	static String name = "CC-Tråd";
 	Thread t;
-	boolean killClient = false;
 
 	public ClientController(WeightData vaegtdata) {
 		this.vaegtdata = vaegtdata;
@@ -46,9 +45,7 @@ public class ClientController implements Runnable {
 
 		tui.print_Menu(vaegtdata);
 		String answer = getStringInput();
-		if(killClient){
-			answer = "Q";
-		} if (answer.equals("Q")) {
+		if (answer.equals("Q")) {
 			closeCC();
 		} else if (answer.equals("T")) {
 			vaegtdata.setTara(vaegtdata.getBrutto());
@@ -67,18 +64,17 @@ public class ClientController implements Runnable {
 			runMenu();
 		}
 	}
-	
-	public void closeCC(){
+
+	public void closeCC() {
 		// terminate
 		this.vaegtdata.setRun(false);
 		io.closeServer();
-		tui.closeTUI();
-		killClient = true;
+		System.exit(0);
 	}
-	
+
 	@Override
 	public void run() {
-			runMenu();
+		runMenu();
 	}
 
 	public void start() {

@@ -20,16 +20,6 @@ public class TUI {
 		vaegtdata.setRm20_kommando("");
 		vaegtdata.setInstruktionsdisplay2("");
 	}
-	public void closeTUI(){
-		try {
-			inFromUser.close();
-			System.in.close();
-			System.out.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 
 	public TUI() {
 	}
