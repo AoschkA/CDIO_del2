@@ -11,6 +11,7 @@ public class ClientController implements Runnable {
 	IOController io;
 	static String name = "CC-Tråd";
 	Thread t;
+	boolean killClient = false;
 
 	public ClientController(WeightData vaegtdata) {
 		this.vaegtdata = vaegtdata;
@@ -42,20 +43,25 @@ public class ClientController implements Runnable {
 	}
 
 	public void runMenu() {
+
 		tui.print_Menu(vaegtdata);
 		String answer = getStringInput();
-		if (answer.equals("Q")) {
+		if(killClient){
+			answer = "Q";
+		} if (answer.equals("Q")) {
 			closeCC();
 		} else if (answer.equals("T")) {
 			vaegtdata.setTara(vaegtdata.getBrutto());
+			runMenu();
 		} else if (answer.equals("B")) {
 			tui.printMessage("Indtast brutto vægt:");
 			vaegtdata.setBrutto(getIntInput());
-			System.out.println(vaegtdata.getBrutto());
+			runMenu();
 		} else if (answer.equals("S")) {
 			tui.printMessage("Indtast dit svar: ");
 			io.writeSocket("RM20 A " + getStringInput() + " crlf");
 			vaegtdata.setRm20_kommando("");
+			runMenu();
 		} else {
 			tui.printMessage("Not a known input, please try again:");
 			runMenu();
@@ -65,20 +71,14 @@ public class ClientController implements Runnable {
 	public void closeCC(){
 		// terminate
 		this.vaegtdata.setRun(false);
-		tui.closeTUI();
 		io.closeServer();
+		tui.closeTUI();
+		killClient = true;
 	}
+	
 	@Override
 	public void run() {
-		while (this.vaegtdata.isRun()) {
 			runMenu();
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
 	}
 
 	public void start() {
