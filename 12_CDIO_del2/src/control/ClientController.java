@@ -48,6 +48,7 @@ public class ClientController implements Runnable {
 			// terminate
 			tui.printMessage("Du har afsluttet programmet");
 			vaegtdata.setRun(false);
+			io.closeServer();
 		} else if (answer.equals("T")) {
 			vaegtdata.setTara(vaegtdata.getBrutto());
 		} else if (answer.equals("B")) {

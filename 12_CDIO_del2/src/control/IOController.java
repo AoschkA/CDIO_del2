@@ -30,7 +30,7 @@ public class IOController implements Runnable {
 	public IOController(WeightData vaegtdata) {
 		this.vaegtdata = vaegtdata;
 		this.vaegtdata.setRun(true);
-		
+
 	}
 
 	// Jar fil kørt med 1 argument (port)
@@ -61,8 +61,10 @@ public class IOController implements Runnable {
 			this.vaegtdata.setConnected_host(sock.getInetAddress());
 			tui.print_Menu(this.vaegtdata);
 			outstream.flush();
-			outstream.writeUTF("Velkommen til Mettler BBK Vægt-simulator " + "\r\n");
-			while (!(inline = instream.readLine().toUpperCase()).isEmpty()) {
+			outstream.writeUTF("Velkommen til Mettler BBK Vægt-simulator "
+					+ "\r\n");
+			while (!(inline = instream.readLine().toUpperCase()).isEmpty()
+					&& this.vaegtdata.isRun()) {
 
 				if (inline.startsWith("Ÿ")) {
 					inline = inline.substring(21, inline.length());
@@ -77,7 +79,8 @@ public class IOController implements Runnable {
 					outstream.writeUTF("Kommandoer til vægten: " + "\r\n");
 					outstream.writeUTF("1: T - Tarer vægten " + "\r\n");
 					outstream.writeUTF("2: S - Vis nuværende vægt " + "\r\n");
-					outstream.writeUTF("3: B ... - ændre brutto vægt på vægten "
+					outstream
+							.writeUTF("3: B ... - ændre brutto vægt på vægten "
 									+ "\r\n");
 					outstream.writeUTF("4: D ... - ændre display 1's tekst "
 							+ "\r\n");
@@ -103,8 +106,7 @@ public class IOController implements Runnable {
 				} else if (inline.startsWith("D")) {
 					if (inline.equals("D")) {
 						throw new InputLengthException();
-					}
-					else if (inline.length() > 9){
+					} else if (inline.length() > 9) {
 						throw new InputLengthException();
 					}
 					this.vaegtdata.setInstruktionsdisplay1(inline);
@@ -116,10 +118,10 @@ public class IOController implements Runnable {
 						this.vaegtdata.setStreng_fra_bruger(inline);
 						this.vaegtdata.setInstruktionsdisplay2("");
 						tui.print_Menu(this.vaegtdata);
-					} 
-//						else if (inline.length() > 35) {
-//						throw new InputLengthException();
-//					}
+					}
+					// else if (inline.length() > 35) {
+					// throw new InputLengthException();
+					// }
 					this.vaegtdata.setStreng_fra_bruger(inline);
 					this.vaegtdata.setInstruktionsdisplay2(inline.substring(2,
 							inline.length()));
@@ -148,14 +150,14 @@ public class IOController implements Runnable {
 					// ikke p� en fysisk v�gt
 					if (inline.equalsIgnoreCase("B")) {
 						throw new InputLengthException();
-					} 
-					else {
+					} else {
 						String temp = inline.substring(2, inline.length());
 						this.vaegtdata
 								.setStreng_fra_bruger(inline.substring(0));
-						if (Double.parseDouble(temp)/1000 <= 6.02) {
-							this.vaegtdata.setBrutto(Double.parseDouble(temp)/1000);
-							outstream.writeBytes("DB "+ "crlf" + "\r\n");
+						if (Double.parseDouble(temp) / 1000 <= 6.02) {
+							this.vaegtdata
+									.setBrutto(Double.parseDouble(temp) / 1000);
+							outstream.writeBytes("DB " + "crlf" + "\r\n");
 							tui.print_Menu(this.vaegtdata);
 						} else {
 							throw new InputLengthException();
@@ -177,11 +179,15 @@ public class IOController implements Runnable {
 				}
 				Thread.sleep(100);
 			}
-		} catch (InputLengthException | InterruptedException | IOException | UnknownInputException e) {
-			outstream.writeBytes("ES" + "\r\n");
-		} 
+		} catch (InputLengthException | InterruptedException | IOException
+				| UnknownInputException e) {
+			if (!listener.isClosed()) {
+				outstream.writeBytes("ES" + "\r\n");
+			}
+		}
 	}
-	public void writeSocket(String s){
+
+	public void writeSocket(String s) {
 		try {
 			outstream.writeBytes(s + "crlf\r\n");
 		} catch (IOException e) {
@@ -189,22 +195,27 @@ public class IOController implements Runnable {
 			e.printStackTrace();
 		}
 	}
+
+	public void closeServer() {
+		try {
+			if (outstream != null)
+				outstream.close();
+			if (instream != null)
+				instream.close();
+			if (!listener.isClosed())
+				listener.close();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+	}
+
 	@Override
 	public void run() {
-		while (vaegtdata.isRun()) {
-			try {
-				user_Input();
-				if (!vaegtdata.isRun()) {
-					System.in.close();
-					System.out.close();
-					instream.close();
-					outstream.close();
-					break;
-				}
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				System.out.println("Fejl ved forbindelse");
-			}
+		try {
+			user_Input();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
