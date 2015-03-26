@@ -56,7 +56,7 @@ public class ClientController implements Runnable {
 			runMenu();
 		} else if (answer.equals("S")) {
 			tui.printMessage("Indtast dit svar: ");
-			io.writeSocket("RM20 A " + getStringInput() + " crlf");
+			io.writeSocket("RM20 A " + getStringInput());
 			vaegtdata.setRm20_kommando("");
 			runMenu();
 		} else {

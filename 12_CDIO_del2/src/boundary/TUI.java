@@ -29,9 +29,7 @@ public class TUI {
 		return inFromUser.readLine();
 	}
 
-	public void print_Menu(WeightData vaegtdata) {
-		this.vaegtdata = vaegtdata;
-		clearScreen();
+	public void print_Weight() {
 		System.out.println("*************************************************");
 		if (this.vaegtdata.getRm20_kommando() != "") {
 			System.out.println("Instruktion: "
@@ -48,8 +46,10 @@ public class TUI {
 					+ this.vaegtdata.getInstruktionsdisplay2());
 		}
 		System.out.println("*************************************************");
-		System.out.println(" ");
-		System.out.println(" ");
+	}
+
+	public void print_Debug() {
+		System.out.println("*************************************************");
 		System.out.println("Debug info: ");
 		System.out
 				.println("Hooked up to " + this.vaegtdata.getConnected_host());
@@ -60,7 +60,10 @@ public class TUI {
 		System.out.println("Denne vægt simulator lytter på ordrene ");
 		System.out.println("D, DN, S, T, B, Q ");
 		System.out.println("på kommunikationsporten. ");
-		System.out.println("******");
+		System.out.println("*************************************************");
+	}
+
+	public void print_UserFeedBack() {
 		System.out.println("Tast T for tara (svarende til knaptryk paa vægt)");
 		System.out
 				.println("Tast B for ny brutto (svarende til at belastningen på vægt ændres)");
@@ -73,9 +76,36 @@ public class TUI {
 		} else {
 			System.out.print("Tast her: ");
 		}
-
 	}
-	public void clearScreen(){
+
+	public void print_Menu(WeightData vaegtdata) {
+		this.vaegtdata = vaegtdata;
+		clearScreen();
+		print_Weight();
+		if (this.vaegtdata.getUserChoice().length == 0) {
+			print_Debug();
+		} else if (this.vaegtdata.getUserChoice().length > 1) {
+			if (Integer.parseInt(this.vaegtdata.getUserChoice()[1]) != 0) {
+				print_Debug();
+			}
+		} else {
+			print_Debug();
+		}
+		print_UserFeedBack();
+	}
+
+	public void clearScreen() {
+		// Udskriv 25 tomme linjer
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
 		System.out.println("");
 		System.out.println("");
 		System.out.println("");

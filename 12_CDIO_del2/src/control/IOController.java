@@ -15,9 +15,9 @@ import exceptions.UnknownInputException;
 public class IOController implements Runnable {
 	Thread t;
 	String name = "IO-Tråd";
-	int userdisc = 1;
+	//int userdisc = 1;
 	static ServerSocket listener;
-	static int menutrue = 0;
+	//static int menutrue = 0;
 	static String inline;
 	static int portdst = 8000;
 	static Socket sock;
@@ -27,30 +27,17 @@ public class IOController implements Runnable {
 	WeightData vaegtdata = new WeightData();
 	ClientController cc;
 
-	// Jar fil kørt uden argumenter
+	// Konstruktør - standard
 	public IOController(WeightData vaegtdata) {
 		this.vaegtdata = vaegtdata;
+		if(this.vaegtdata.getUserChoice() != null){
+			if(this.vaegtdata.getUserChoice().length > 0){
+				portdst = Integer.parseInt(this.vaegtdata.getUserChoice()[0]);
+			}
+		}
 		this.vaegtdata.setRun(true);
-		//cc = new ClientController(vaegtdata);
+		
 	}
-
-	// Jar fil kørt med 1 argument (port)
-	public IOController(int port, WeightData vaegtdata) {
-		this.vaegtdata = vaegtdata;
-		portdst = port;
-	}
-
-	// Jar fil kørt med 2 argumenter (port og menu)
-//	public IOController(int port, int medmenu, WeightData vaegtdata)
-//			throws IOException {
-//		this.vaegtdata = vaegtdata;
-//		menutrue = medmenu;
-//		portdst = port;
-//		if (menutrue == 1) {
-//			outstream.writeBytes("Tryk A for at vise vægtens kommandoer. "
-//					+ "\r\n");
-//		}
-//	}
 
 	public void user_Input() throws IOException {
 		try {
@@ -73,6 +60,7 @@ public class IOController implements Runnable {
 				if (inline.startsWith("�")) {
 					inline = inline.substring(21, inline.length());
 				}
+				// Til brug for en remote-menu hvis vi får brug for det.
 //				if (inline.startsWith("A") && menutrue == 1) {
 //					menutrue = 2;
 //				}
@@ -147,8 +135,7 @@ public class IOController implements Runnable {
 								+ "\r\n");
 					}
 				} else if (inline.startsWith("B")) {
-					// denne ordre findes
-					// ikke p� en fysisk v�gt
+					// Ikke eksisterende på den rigtige vægt
 					if (inline.equalsIgnoreCase("B")) {
 						throw new InputLengthException();
 					} else {

@@ -12,6 +12,7 @@ public class WeightData {
 	static InetAddress connected_host = null;
 	static String rm20_kommando = "";
 	static boolean run = true;
+	static String userchoice[] = null;
 	
 	public synchronized boolean isRun() {
 		return run;
@@ -82,8 +83,11 @@ public class WeightData {
 		WeightData.streng_fra_bruger = streng_fra_bruger;
 	}
 	
-	public synchronized void taraWeight() {
-		tara = brutto;
-		brutto = 0;
+	public synchronized String[] getUserChoice(){
+		return WeightData.userchoice;
+	}
+	
+	public synchronized void setUserChoice(String[] s_array){
+		WeightData.userchoice = s_array;
 	}
 }
