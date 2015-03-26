@@ -55,7 +55,7 @@ public class WeightData {
 	}
 
 	public synchronized void setBrutto(double brutto) {
-		WeightData.brutto = brutto;
+		WeightData.brutto += brutto;
 	}
 
 	public synchronized double getNetto() {
