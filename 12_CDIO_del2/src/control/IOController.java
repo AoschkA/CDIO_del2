@@ -11,6 +11,7 @@ import boundary.TUI;
 import entity.WeightData;
 import exceptions.InputLengthException;
 import exceptions.UnknownInputException;
+import exceptions.UnsupportedWeightException;
 
 public class IOController implements Runnable, IIOController {
 	Thread t;
@@ -72,8 +73,7 @@ public class IOController implements Runnable, IIOController {
 					tui.print_Menu(this.vaegtdata);
 				} else if (inline.startsWith("D")) {
 					if (inline.equals("D")) {
-						throw new InputLengthException();
-						// TODO Auto-generated catch block
+						throw new UnknownInputException();
 					} else if (inline.length() > 9) {
 						throw new InputLengthException();
 						// TODO Auto-generated catch block
@@ -115,8 +115,7 @@ public class IOController implements Runnable, IIOController {
 				} else if (inline.startsWith("B")) {
 					// Ikke eksisterende på den rigtige vægt
 					if (inline.equalsIgnoreCase("B")) {
-						throw new InputLengthException();
-						// TODO Auto-generated catch block
+						throw new UnknownInputException();
 					} else {
 						String temp = inline.substring(2, inline.length());
 						this.vaegtdata
@@ -127,8 +126,7 @@ public class IOController implements Runnable, IIOController {
 							writeSocket("DB ");
 							tui.print_Menu(this.vaegtdata);
 						} else {
-							throw new InputLengthException();
-							// TODO Auto-generated catch block
+							throw new UnsupportedWeightException();
 						}
 					}
 				} else if ((inline.startsWith("Q"))) {
@@ -143,14 +141,12 @@ public class IOController implements Runnable, IIOController {
 					closeServer();
 				} else {
 					throw new UnknownInputException();
-					// TODO Auto-generated catch block
 				}
 			}
 		} catch (InputLengthException | IOException
-				| UnknownInputException e) {
+				| UnknownInputException | UnsupportedWeightException e) {
 			if (!listener.isClosed()) {
 				writeSocket("ES");
-				// TODO Auto-generated catch block
 			}
 		}
 	}
