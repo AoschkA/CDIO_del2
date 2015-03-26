@@ -1,6 +1,7 @@
 package control;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 
 import entity.WeightData;
 import boundary.TUI;
@@ -11,6 +12,7 @@ public class ClientController implements Runnable {
 	IOController io;
 	static String name = "CC-Tråd";
 	Thread t;
+	DecimalFormat df = new DecimalFormat("0.00"); 
 
 	public ClientController(WeightData vaegtdata) {
 		this.vaegtdata = vaegtdata;
@@ -29,30 +31,35 @@ public class ClientController implements Runnable {
 		return input;
 	}
 
-	private int getIntInput() {
-		int output = 0;
-		String input = getStringInput();
-		try {
-			output = Integer.parseInt(input);
-		} catch (NumberFormatException e) {
-			tui.printMessage("Couldn't recognize the input");
-			return getIntInput();
-		}
+	private double getNumberInput() {
+		double output = Double.parseDouble(getStringInput());
 		return output;
 	}
 
-	public void runMenu() throws IOException {
+	public void runMenu() throws IOException, InterruptedException {
 
 		tui.print_Menu(vaegtdata);
 		String answer = getStringInput();
 		if (answer.equals("Q")) {
 			closeCC();
+		} else if (answer.equals("R")) {
+			vaegtdata.resetWeight();
+			runMenu();
 		} else if (answer.equals("T")) {
 			vaegtdata.setTara(vaegtdata.getBrutto());
 			runMenu();
 		} else if (answer.equals("B")) {
 			tui.printMessage("Indtast brutto vægt:");
-			vaegtdata.setBrutto(getIntInput());
+			double tempvaegt = getNumberInput();
+			if(tempvaegt <= 6.02 && tempvaegt >= 0.00){
+				vaegtdata.setBrutto(tempvaegt);
+			}else{
+				tui.printMessage("Du har indtastet en for høj vægt, den skal være\n"
+						+ "mellem 0 og 6.02kg, prøv igen.");
+				Thread.sleep(2000);
+				runMenu();
+			}
+			
 			runMenu();
 		} else if (answer.equals("S")) {
 			tui.printMessage("Indtast dit svar: ");
@@ -77,6 +84,9 @@ public class ClientController implements Runnable {
 		try {
 			runMenu();
 		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

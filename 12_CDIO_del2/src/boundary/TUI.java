@@ -49,7 +49,6 @@ public class TUI {
 	}
 
 	public void print_Debug() {
-		System.out.println("*************************************************");
 		System.out.println("Debug info: ");
 		System.out
 				.println("Hooked up to " + this.vaegtdata.getConnected_host());
@@ -64,12 +63,12 @@ public class TUI {
 	}
 
 	public void print_UserFeedBack() {
-		System.out.println("Tast T for tara (svarende til knaptryk paa vægt)");
-		System.out
-				.println("Tast B for ny brutto (svarende til at belastningen på vægt ændres)");
+		System.out.println("Tast B for ny brutto \n\t(svarende til at belastningen på vægt ændres)");
+		System.out.println("Tast T for tara \n\t(svarende til knaptryk paa vægt)");
+		System.out.println("Tast R for at reset vægt-værdier \n\t(svarende til at fjerne belastningen og tara)");
 		System.out.println("Tast Q for at afslutte program program");
-		System.out
-				.println("Indtast (T/B/Q for knaptryk / brutto ændring / quit)");
+		System.out.println("Indtast (B/T/R/Q for: \n\t"
+				+ "(B)rutto Ændring / (T)arer Vægt / (R)Nultil Vægt / (Q)Afslut Vægt)");
 		if (this.vaegtdata.getRm20_kommando() != "") {
 			System.out.println("Tast S for at svare på RM20 kommando");
 			System.out.print("Tast her: ");

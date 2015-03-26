@@ -5,10 +5,12 @@ import entity.WeightData;
 
 public class launch {
 	static WeightData vaegtdata = new WeightData();
-	static IOController io = new IOController(vaegtdata);
-	static ClientController cc = new ClientController(vaegtdata);
+	static IOController io;
+	static ClientController cc;
 	public static void main(String args[]){
 		vaegtdata.setUserChoice(args);
+		cc = new ClientController(vaegtdata);
+		io = new IOController(vaegtdata);
 		cc.start();
 		try {
 			io.start();

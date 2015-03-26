@@ -30,7 +30,8 @@ public class IOController implements Runnable {
 	// Konstruktør - standard
 	public IOController(WeightData vaegtdata) {
 		this.vaegtdata = vaegtdata;
-		if(this.vaegtdata.getUserChoice() != null){
+		if (this.vaegtdata.getUserChoice().length == 0) {
+		} else if (this.vaegtdata.getUserChoice().length > 1) {
 			if(this.vaegtdata.getUserChoice().length > 0){
 				portdst = Integer.parseInt(this.vaegtdata.getUserChoice()[0]);
 			}
@@ -85,12 +86,12 @@ public class IOController implements Runnable {
 					this.vaegtdata.setStreng_fra_bruger(inline.substring(0));
 					this.vaegtdata.setRm20_kommando(inline.substring(7,
 							inline.length()));
-					outstream.writeBytes("RM20 " + "B" + "crlf\r\n");
+					writeSocket("RM20 " + "B");
 					tui.print_Menu(this.vaegtdata);
 				} else if (inline.startsWith("DW")) {
 					this.vaegtdata.setInstruktionsdisplay1("");
 					this.vaegtdata.setStreng_fra_bruger(inline.substring(0));
-					outstream.writeBytes("DW " + "A" + "crlf" + "\r\n");
+					writeSocket("DW " + "A");
 					tui.print_Menu(this.vaegtdata);
 				} else if (inline.startsWith("D")) {
 					if (inline.equals("D")) {
@@ -100,7 +101,7 @@ public class IOController implements Runnable {
 					}
 					this.vaegtdata.setInstruktionsdisplay1(inline);
 					this.vaegtdata.setStreng_fra_bruger(inline.substring(0));
-					outstream.writeBytes("D " + "A" + "crlf" + "\r\n");
+					writeSocket("D " + "A");
 					tui.print_Menu(this.vaegtdata);
 				} else if (inline.startsWith("P111")) {
 					if (inline.equals("P111")) {
@@ -113,26 +114,23 @@ public class IOController implements Runnable {
 						this.vaegtdata.setStreng_fra_bruger(inline);
 						this.vaegtdata.setInstruktionsdisplay2(inline
 								.substring(2, inline.length()));
-						outstream.writeBytes("P111 " + "A" + "crlf" + "\r\n");
+						writeSocket("P111 " + "A");
 						tui.print_Menu(this.vaegtdata);
 					}
 				} else if (inline.startsWith("T")) {
 					this.vaegtdata.setStreng_fra_bruger(inline);
 					this.vaegtdata.setTara(vaegtdata.getBrutto());
-					outstream.writeBytes("T " + "S " + "     "
-							+ (vaegtdata.getTara()) + " kg " + "cr" + "lf"
-							+ "\r\n");
+					writeSocket("T " + "S " + "     "
+							+ (vaegtdata.getTara()) + " kg ");
 					tui.print_Menu(this.vaegtdata);
 				} else if (inline.equals("S")) {
 					this.vaegtdata.setStreng_fra_bruger(inline.substring(0));
 					if (vaegtdata.getNetto() >= 0) {
-						outstream.writeBytes("S " + "S" + "      "
-								+ (vaegtdata.getNetto()) + " kg " + "cr" + "lf"
-								+ "\r\n");
+						writeSocket("S " + "S" + "      "
+								+ (vaegtdata.getNetto()) + " kg ");
 					} else if (vaegtdata.getNetto() < 0) {
-						outstream.writeBytes("S " + "S" + "     "
-								+ (vaegtdata.getNetto()) + " kg " + "cr" + "lf"
-								+ "\r\n");
+						writeSocket("S " + "S" + "     "
+								+ (vaegtdata.getNetto()) + " kg ");
 					}
 				} else if (inline.startsWith("B")) {
 					// Ikke eksisterende på den rigtige vægt
@@ -142,10 +140,10 @@ public class IOController implements Runnable {
 						String temp = inline.substring(2, inline.length());
 						this.vaegtdata
 								.setStreng_fra_bruger(inline.substring(0));
-						if (Double.parseDouble(temp) / 1000 <= 6.02 && Double.parseDouble(temp) / 1000 >= 0) {
+						if (Double.parseDouble(temp) <= 6.02 && Double.parseDouble(temp) >= 0) {
 							this.vaegtdata
-									.setBrutto(Double.parseDouble(temp) / 1000);
-							outstream.writeBytes("DB " + "crlf" + "\r\n");
+									.setBrutto(Double.parseDouble(temp));
+							writeSocket("DB ");
 							tui.print_Menu(this.vaegtdata);
 						} else {
 							throw new InputLengthException();
@@ -154,7 +152,7 @@ public class IOController implements Runnable {
 				} else if ((inline.startsWith("Q"))) {
 					// denne ordre findes heller ikke p� den fysiske v�gt.
 					this.vaegtdata.setStreng_fra_bruger(inline.substring(0));
-					outstream.writeBytes("Vægt lukkes \r\n");
+					writeSocket("Vægt lukkes");
 					tui.printMessage("Program stoppet Q modtaget på com port"
 							+ "\r\n");
 					vaegtdata.setRun(false);

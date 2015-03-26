@@ -14,6 +14,10 @@ public class WeightData {
 	static boolean run = true;
 	static String userchoice[] = null;
 	
+	public synchronized void resetWeight(){
+		WeightData.tara = 0;
+		WeightData.brutto = 0;
+	}
 	public synchronized boolean isRun() {
 		return run;
 	}
@@ -43,7 +47,7 @@ public class WeightData {
 	}
 
 	public synchronized void setTara(double tara) {
-		WeightData.tara = tara;
+		WeightData.tara += tara;
 	}
 
 	public synchronized double getBrutto() {
