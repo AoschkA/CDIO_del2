@@ -2,7 +2,7 @@ package entity;
 
 import java.net.InetAddress;
 
-public class WeightData {
+public class WeightData implements IWeightData {
 
 	static double tara = 0;
 	static double brutto = 0;
@@ -13,11 +13,12 @@ public class WeightData {
 	static String rm20_kommando = "";
 	static boolean run = true;
 	static String userchoice[] = null;
-	
-	public synchronized void resetWeight(){
+
+	public synchronized void resetWeight() {
 		WeightData.tara = 0;
 		WeightData.brutto = 0;
 	}
+
 	public synchronized boolean isRun() {
 		return run;
 	}
@@ -62,7 +63,6 @@ public class WeightData {
 		return WeightData.brutto - WeightData.tara;
 	}
 
-
 	public synchronized String getInstruktionsdisplay1() {
 		return instruktionsdisplay1;
 	}
@@ -86,12 +86,12 @@ public class WeightData {
 	public synchronized void setStreng_fra_bruger(String streng_fra_bruger) {
 		WeightData.streng_fra_bruger = streng_fra_bruger;
 	}
-	
-	public synchronized String[] getUserChoice(){
+
+	public synchronized String[] getUserChoice() {
 		return WeightData.userchoice;
 	}
-	
-	public synchronized void setUserChoice(String[] s_array){
+
+	public synchronized void setUserChoice(String[] s_array) {
 		WeightData.userchoice = s_array;
 	}
 }

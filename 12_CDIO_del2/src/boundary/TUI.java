@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import entity.WeightData;
 
-public class TUI {
+public class TUI implements IUI{
 	WeightData vaegtdata;
 	private BufferedReader inFromUser = new BufferedReader(
 			new InputStreamReader(System.in));

@@ -12,12 +12,10 @@ import entity.WeightData;
 import exceptions.InputLengthException;
 import exceptions.UnknownInputException;
 
-public class IOController implements Runnable {
+public class IOController implements Runnable, IIOController {
 	Thread t;
 	String name = "IO-Tråd";
-	//int userdisc = 1;
 	static ServerSocket listener;
-	//static int menutrue = 0;
 	static String inline;
 	static int portdst = 8000;
 	static Socket sock;
@@ -61,27 +59,6 @@ public class IOController implements Runnable {
 				if (inline.startsWith("�")) {
 					inline = inline.substring(21, inline.length());
 				}
-				// Til brug for en remote-menu hvis vi får brug for det.
-//				if (inline.startsWith("A") && menutrue == 1) {
-//					menutrue = 2;
-//				}
-//				if (menutrue == 2) {
-//					outstream.writeUTF("Kommandoer til vægten: " + "\r\n");
-//					outstream.writeUTF("1: T - Tarer vægten " + "\r\n");
-//					outstream.writeUTF("2: S - Vis nuværende vægt " + "\r\n");
-//					outstream
-//							.writeUTF("3: B ... - ændre brutto vægt på vægten "
-//									+ "\r\n");
-//					outstream.writeUTF("4: D ... - ændre display 1's tekst "
-//							+ "\r\n");
-//					outstream.writeUTF("5: DW - nulstil display 1 " + "\r\n");
-//					outstream.writeUTF("6: P111 - blahblah " + "\r\n");
-//					outstream
-//							.writeUTF("7: RM20 8 ... - kommandoer til vægtens bruger "
-//									+ "\r\n");
-//					outstream.writeUTF("8: Q - afslut vægt " + "\r\n");
-//					menutrue = 1;
-//				}
 				if (inline.startsWith("RM20")) {
 					this.vaegtdata.setStreng_fra_bruger(inline.substring(0));
 					this.vaegtdata.setRm20_kommando(inline.substring(7,
@@ -96,8 +73,10 @@ public class IOController implements Runnable {
 				} else if (inline.startsWith("D")) {
 					if (inline.equals("D")) {
 						throw new InputLengthException();
+						// TODO Auto-generated catch block
 					} else if (inline.length() > 9) {
 						throw new InputLengthException();
+						// TODO Auto-generated catch block
 					}
 					this.vaegtdata.setInstruktionsdisplay1(inline);
 					this.vaegtdata.setStreng_fra_bruger(inline.substring(0));
@@ -110,6 +89,7 @@ public class IOController implements Runnable {
 						tui.print_Menu(this.vaegtdata);
 					} else if (inline.length() > 35) {
 						throw new InputLengthException();
+						// TODO Auto-generated catch block
 					} else {
 						this.vaegtdata.setStreng_fra_bruger(inline);
 						this.vaegtdata.setInstruktionsdisplay2(inline
@@ -136,6 +116,7 @@ public class IOController implements Runnable {
 					// Ikke eksisterende på den rigtige vægt
 					if (inline.equalsIgnoreCase("B")) {
 						throw new InputLengthException();
+						// TODO Auto-generated catch block
 					} else {
 						String temp = inline.substring(2, inline.length());
 						this.vaegtdata
@@ -147,6 +128,7 @@ public class IOController implements Runnable {
 							tui.print_Menu(this.vaegtdata);
 						} else {
 							throw new InputLengthException();
+							// TODO Auto-generated catch block
 						}
 					}
 				} else if ((inline.startsWith("Q"))) {
@@ -161,19 +143,26 @@ public class IOController implements Runnable {
 					closeServer();
 				} else {
 					throw new UnknownInputException();
+					// TODO Auto-generated catch block
 				}
 			}
 		} catch (InputLengthException | IOException
 				| UnknownInputException e) {
 			if (!listener.isClosed()) {
-				outstream.writeBytes("ES" + "\r\n");
+				writeSocket("ES");
+				// TODO Auto-generated catch block
 			}
 		}
 	}
 
-	public void writeSocket(String s) throws IOException {
+	public void writeSocket(String s) {
 
-			outstream.writeBytes(s + "crlf\r\n");
+			try {
+				outstream.writeBytes(s + "crlf\r\n");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	}
 
 	public void closeServer() {

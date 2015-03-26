@@ -6,7 +6,7 @@ import java.text.DecimalFormat;
 import entity.WeightData;
 import boundary.TUI;
 
-public class ClientController implements Runnable {
+public class ClientController implements Runnable, IClientController {
 	WeightData vaegtdata;
 	TUI tui;
 	IOController io;
