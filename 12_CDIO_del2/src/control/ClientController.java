@@ -13,6 +13,7 @@ public class ClientController implements Runnable, IClientController {
 	static String name = "CC-Tråd";
 	Thread t;
 	DecimalFormat df = new DecimalFormat("0.00"); 
+	WeightController wc = new WeightController();
 
 	public ClientController(WeightData vaegtdata) {
 		this.vaegtdata = vaegtdata;
@@ -63,7 +64,7 @@ public class ClientController implements Runnable, IClientController {
 			runMenu();
 		} else if (answer.equals("S")) {
 			tui.printMessage("Indtast dit svar: ");
-			io.writeSocket("RM20 A " + getStringInput());
+			wc.writeSocket("RM20 A " + getStringInput());
 			vaegtdata.setRm20_kommando("");
 			runMenu();
 		} else {
@@ -76,7 +77,7 @@ public class ClientController implements Runnable, IClientController {
 		// terminate
 		this.vaegtdata.setRun(false);
 		io.closeServer();
-		System.exit(0);
+		//System.exit(0);
 	}
 
 	@Override
