@@ -76,7 +76,7 @@ public class WeightController implements IWeightController{
 					throw new InputLengthException();
 				} else {
 					this.wd.setStreng_fra_bruger(inline);
-					this.wd.setInstruktionsdisplay2(inline.substring(2,
+					this.wd.setInstruktionsdisplay2(inline.substring(5,
 							inline.length()));
 					writeSocket("P111 " + "A");
 					tui.print_Menu(this.wd);
