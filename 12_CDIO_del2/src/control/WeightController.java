@@ -128,7 +128,7 @@ public class WeightController implements IWeightController{
 
 	public void writeSocket(String s) throws IOException {
 
-		outstream.writeBytes(s + "crlf\r\n");
+		outstream.writeBytes(s + " crlf\r\n");
 	}
 
 	public void closeStreams() {

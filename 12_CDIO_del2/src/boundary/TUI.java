@@ -80,22 +80,32 @@ public class TUI implements IUI{
 	public void print_Menu(WeightData vaegtdata) {
 		this.vaegtdata = vaegtdata;
 		clearScreen();
-		print_Weight();
 		if (this.vaegtdata.getUserChoice().length == 0) {
+			print_Weight();
 			print_Debug();
+			print_UserFeedBack();
 		} else if (this.vaegtdata.getUserChoice().length > 1) {
-			if (Integer.parseInt(this.vaegtdata.getUserChoice()[1]) != 0) {
-				print_Debug();
+			if (Integer.parseInt(this.vaegtdata.getUserChoice()[1]) == 0) {
+				print_Weight();
 			}
-		} else {
-			print_Debug();
+			else if (Integer.parseInt(this.vaegtdata.getUserChoice()[1]) == 1) {
+				print_Weight();
+				print_UserFeedBack();
+			}
+			else if (Integer.parseInt(this.vaegtdata.getUserChoice()[1]) == 2) {
+				print_Weight();
+				print_Debug();
+				print_UserFeedBack();
+			} else {
+				System.out.println("Indtast en værdi mellem 0 og 2!");
+				System.exit(0);
+			}
 		}
-		print_UserFeedBack();
 	}
 
 	public void clearScreen() {
 		// Udskriv 25 tomme linjer
-		for(int i = 0;i < 25;i++){
+		for(int i = 0;i < 30;i++){
 			System.out.println("");
 		}
 
