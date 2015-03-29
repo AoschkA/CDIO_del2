@@ -104,7 +104,7 @@ public class TUI implements IUI{
 	}
 
 	public void clearScreen() {
-		// Udskriv 25 tomme linjer
+		// Udskriv 30 tomme linjer
 		for(int i = 0;i < 30;i++){
 			System.out.println("");
 		}
