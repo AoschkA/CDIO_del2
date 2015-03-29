@@ -27,14 +27,14 @@ public class WeightController implements IWeightController{
 	public WeightController(){
 		
 	}
-
+	@Override
 	public int server_Run() throws IOException, UnknownInputException,
 			InputLengthException, UnsupportedWeightException {
 		instream = new BufferedReader(new InputStreamReader(
 				sock.getInputStream()));
 		outstream = new DataOutputStream(sock.getOutputStream());
 		this.wd.setConnected_host(sock.getInetAddress());
-		tui.print_Menu(this.wd);
+		tui.printMenu(this.wd);
 		outstream.flush();
 		outstream
 				.writeUTF("Velkommen til Mettler BBK Vægt-simulator " + "\r\n");
@@ -51,12 +51,12 @@ public class WeightController implements IWeightController{
 				this.wd.setStreng_fra_bruger(inline.substring(0));
 				this.wd.setRm20_kommando(inline.substring(7, inline.length()));
 				writeSocket("RM20 " + "B");
-				tui.print_Menu(this.wd);
+				tui.printMenu(this.wd);
 			} else if (inline.startsWith("DW")) {
 				this.wd.setInstruktionsdisplay1("");
 				this.wd.setStreng_fra_bruger(inline.substring(0));
 				writeSocket("DW " + "A");
-				tui.print_Menu(this.wd);
+				tui.printMenu(this.wd);
 			} else if (inline.startsWith("D")) {
 				if (inline.equals("D")) {
 					throw new UnknownInputException();
@@ -66,12 +66,12 @@ public class WeightController implements IWeightController{
 				this.wd.setInstruktionsdisplay1(inline);
 				this.wd.setStreng_fra_bruger(inline.substring(0));
 				writeSocket("D " + "A");
-				tui.print_Menu(this.wd);
+				tui.printMenu(this.wd);
 			} else if (inline.startsWith("P111")) {
 				if (inline.equals("P111")) {
 					this.wd.setStreng_fra_bruger(inline);
 					this.wd.setInstruktionsdisplay2("");
-					tui.print_Menu(this.wd);
+					tui.printMenu(this.wd);
 				} else if (inline.length() > 35) {
 					throw new InputLengthException();
 				} else {
@@ -79,13 +79,13 @@ public class WeightController implements IWeightController{
 					this.wd.setInstruktionsdisplay2(inline.substring(5,
 							inline.length()));
 					writeSocket("P111 " + "A");
-					tui.print_Menu(this.wd);
+					tui.printMenu(this.wd);
 				}
 			} else if (inline.startsWith("T")) {
 				this.wd.setStreng_fra_bruger(inline);
 				this.wd.setTara(wd.getBrutto());
 				writeSocket("T " + "S " + "     " + (wd.getTara()) + " kg ");
-				tui.print_Menu(this.wd);
+				tui.printMenu(this.wd);
 			} else if (inline.equals("S")) {
 				this.wd.setStreng_fra_bruger(inline.substring(0));
 				if (wd.getNetto() >= 0) {
@@ -107,7 +107,7 @@ public class WeightController implements IWeightController{
 							&& Double.parseDouble(temp) >= 0) {
 						this.wd.setBrutto(Double.parseDouble(temp));
 						writeSocket("DB ");
-						tui.print_Menu(this.wd);
+						tui.printMenu(this.wd);
 					} else {
 						throw new UnsupportedWeightException();
 					}
@@ -135,12 +135,12 @@ public class WeightController implements IWeightController{
 		}
 		return 1;
 	}
-
+	@Override
 	public void writeSocket(String s) throws IOException {
 
 		outstream.writeBytes(s + " crlf\r\n");
 	}
-
+	@Override
 	public void closeStreams() {
 		try {
 			if (outstream != null)

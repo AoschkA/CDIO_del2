@@ -30,7 +30,7 @@ public class TUI implements IUI{
 		return inFromUser.readLine();
 	}
 
-	public void print_Weight() {
+	public void printWeight() {
 		System.out.println("*************************************************");
 		if (this.vaegtdata.getRm20_kommando() != "") {
 			System.out.println("Instruktion: "
@@ -49,7 +49,7 @@ public class TUI implements IUI{
 		System.out.println("*************************************************");
 	}
 
-	public void print_Debug() {
+	public void printDebug() {
 		System.out.println("Debug info: ");
 		System.out
 		.println("Hooked up to " + this.vaegtdata.getConnected_host());
@@ -63,7 +63,7 @@ public class TUI implements IUI{
 		System.out.println("*************************************************");
 	}
 
-	public void print_UserFeedBack() {
+	public void printUserFeedBack() {
 		System.out.println("Tast B for ny brutto \n\t(svarende til at belastningen på vægt ændres)");
 		System.out.println("Tast T for tara \n\t(svarende til knaptryk paa vægt)");
 		System.out.println("Tast R for at reset vægt-værdier \n\t(svarende til at fjerne belastningen og tara)");
@@ -78,25 +78,25 @@ public class TUI implements IUI{
 		}
 	}
 	@Override
-	public void print_Menu(WeightData vaegtdata) {
+	public void printMenu(WeightData vaegtdata) {
 		this.vaegtdata = vaegtdata;
 		clearScreen();
 		if (this.vaegtdata.getUserChoice().length == 0) {
-			print_Weight();
-			print_Debug();
-			print_UserFeedBack();
+			printWeight();
+			printDebug();
+			printUserFeedBack();
 		} else if (this.vaegtdata.getUserChoice().length > 1) {
 			if (Integer.parseInt(this.vaegtdata.getUserChoice()[1]) == 0) {
-				print_Weight();
+				printWeight();
 			}
 			else if (Integer.parseInt(this.vaegtdata.getUserChoice()[1]) == 1) {
-				print_Weight();
-				print_UserFeedBack();
+				printWeight();
+				printUserFeedBack();
 			}
 			else if (Integer.parseInt(this.vaegtdata.getUserChoice()[1]) == 2) {
-				print_Weight();
-				print_Debug();
-				print_UserFeedBack();
+				printWeight();
+				printDebug();
+				printUserFeedBack();
 			} else {
 				System.out.println("Indtast en værdi mellem 0 og 2!");
 				System.exit(0);

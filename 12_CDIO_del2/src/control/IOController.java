@@ -31,8 +31,8 @@ public class IOController implements Runnable, IIOController {
 		this.vaegtdata.setRun(true);
 		
 	}
-
-	public void get_User() throws IOException {
+	@Override
+	public void getUser() throws IOException {
 		try {
 			listener = new ServerSocket(portdst);
 			sock = listener.accept();
@@ -48,7 +48,7 @@ public class IOController implements Runnable, IIOController {
 			e.printStackTrace();
 		}
 	}
-
+	@Override
 	public void closeServer() {
 		try {
 			if (!listener.isClosed())
@@ -62,7 +62,7 @@ public class IOController implements Runnable, IIOController {
 	@Override
 	public void run() {
 		try {
-			get_User();
+			getUser();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

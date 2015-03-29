@@ -4,5 +4,5 @@ import java.io.IOException;
 
 public interface IIOController {
 	public void closeServer();
-	public void get_User() throws IOException;
+	public void getUser() throws IOException;
 }

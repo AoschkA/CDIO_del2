@@ -39,7 +39,7 @@ public class ClientController implements Runnable, IClientController {
 
 	public void runMenu() throws IOException, InterruptedException {
 
-		tui.print_Menu(vaegtdata);
+		tui.printMenu(vaegtdata);
 		String answer = getStringInput();
 		if (answer.equals("Q")) {
 			closeCC();
@@ -72,7 +72,7 @@ public class ClientController implements Runnable, IClientController {
 			runMenu();
 		}
 	}
-
+	@Override
 	public void closeCC() {
 		// terminate
 		this.vaegtdata.setRun(false);
