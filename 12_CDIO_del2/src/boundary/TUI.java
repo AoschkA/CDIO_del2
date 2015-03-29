@@ -3,6 +3,7 @@ package boundary;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+
 import entity.WeightData;
 
 public class TUI implements IUI{
@@ -20,7 +21,7 @@ public class TUI implements IUI{
 
 	public TUI() {
 	}
-
+	@Override
 	public void printMessage(String message) {
 		System.out.println(message);
 	}
@@ -51,7 +52,7 @@ public class TUI implements IUI{
 	public void print_Debug() {
 		System.out.println("Debug info: ");
 		System.out
-				.println("Hooked up to " + this.vaegtdata.getConnected_host());
+		.println("Hooked up to " + this.vaegtdata.getConnected_host());
 		System.out.println("Brutto: " + (this.vaegtdata.getBrutto()) + " kg");
 		System.out.println("Streng modtaget: "
 				+ this.vaegtdata.getStreng_fra_bruger());
@@ -76,7 +77,7 @@ public class TUI implements IUI{
 			System.out.print("Tast her: ");
 		}
 	}
-
+	@Override
 	public void print_Menu(WeightData vaegtdata) {
 		this.vaegtdata = vaegtdata;
 		clearScreen();
