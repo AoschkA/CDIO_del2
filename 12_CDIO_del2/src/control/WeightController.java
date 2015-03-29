@@ -49,9 +49,13 @@ public class WeightController implements IWeightController{
 			}
 			if (inline.startsWith("RM20")) {
 				this.wd.setStreng_fra_bruger(inline.substring(0));
+				if(this.wd.getStreng_fra_bruger().length()<6){
+					throw new UnknownInputException();
+				}else{
 				this.wd.setRm20_kommando(inline.substring(7, inline.length()));
 				writeSocket("RM20 " + "B");
 				tui.printMenu(this.wd);
+				}
 			} else if (inline.startsWith("DW")) {
 				this.wd.setInstruktionsdisplay1("");
 				this.wd.setStreng_fra_bruger(inline.substring(0));
