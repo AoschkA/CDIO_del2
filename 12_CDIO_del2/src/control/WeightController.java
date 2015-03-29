@@ -40,7 +40,7 @@ public class WeightController implements IWeightController{
 				.writeUTF("Velkommen til Mettler BBK Vægt-simulator " + "\r\n");
 		while (!(inline = instream.readLine().toUpperCase()).isEmpty()
 				&& this.wd.isRun()) {
-
+			try{
 			if (inline.startsWith("Ÿ")) {
 				inline = inline.substring(21, inline.length());
 			}
@@ -98,7 +98,9 @@ public class WeightController implements IWeightController{
 				// Ikke eksisterende på den rigtige vægt
 				if (inline.equalsIgnoreCase("B")) {
 					throw new UnknownInputException();
-				} else {
+				}else if(!inline.startsWith(" ", 1)){
+					throw new UnknownInputException();
+				}else {
 					String temp = inline.substring(2, inline.length());
 					this.wd.setStreng_fra_bruger(inline.substring(0));
 					if (Double.parseDouble(temp) <= 6.02
@@ -123,6 +125,14 @@ public class WeightController implements IWeightController{
 				throw new UnknownInputException();
 			}
 		}
+		catch(UnsupportedWeightException e){
+			outstream.writeBytes("ES" + "\r\n");
+		}catch(UnknownInputException e){
+			outstream.writeBytes("ES" + "\r\n");
+		}catch(InputLengthException e){
+			outstream.writeBytes("ES" + "\r\n");
+		}
+		}
 		return 1;
 	}
 
@@ -143,3 +153,5 @@ public class WeightController implements IWeightController{
 	}
 
 }
+
+				
